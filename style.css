@@ -654,6 +654,12 @@ legend {
   .app-header { flex-direction: column; text-align: center; }
   .header-logo { margin-right: 0; margin-bottom: 10px; }
   .progress-bar { width: 70%; }
+
+  /* only stretch form buttons, not the theme toggle */
+  button:not(.theme-toggle) {
+    width: 100%;
+    margin: 5px 0;
+  }
 }
 
 /* Toast container: fixed position */
