@@ -653,14 +653,13 @@ legend {
   .app-header { flex-direction: column; text-align: center; }
   .header-logo { margin: 14px auto 10px; }
   .progress-bar { width: 70%; }
-  button { width: 100%; margin: 5px 0; }
-}
 
-/* …but not the theme toggle */
+  /* …but not the theme toggle */
   button:not(.theme-toggle) {
     width: 100%;
     margin: 5px 0;
   }
+}
 
 /* Toast container: fixed position */
 #toast-container {
