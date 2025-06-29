@@ -1,0 +1,677 @@
+/* =======================
+   1. THEME VARIABLES
+   ======================= */
+:root {
+  /* Layout & Containers */
+  --bg-page:        #1f5361;
+  --bg-container:   #d5e6eb;
+  --bg-modal:       #011b1f;
+  --overlay-bg:     rgba(0, 0, 0, 0.5);
+  --splash-bg:      #31849B;
+
+  /* Typography */
+  --text-primary:   #13343e;
+  --text-heading:   #71bace;
+  --text-inverse:   #FFFFFF;
+  --footer-text:    #08a4b6;
+
+  /* Borders & Inputs */
+  --border-color:   #31849B;
+  --input-bg:       #FFFFFF;
+
+  /* Components */
+  --item-bg:        #f9f9f9;
+  --item-border:    #e0e0e0;
+
+  /* Buttons */
+  --btn-bg:         #31849B;
+  --btn-hover-bg:   #0CE2F8;
+  --btn-hover-text: #FFFFFF;
+
+  /* Status Colors */
+  --success:        #28A745;
+  --warning:        #FFC107;
+  --error:          #b93030;
+  --info:           #FFDE59;
+  --accent:         #0481bb;
+
+  /* Progress Bar */
+  --progress-bg:      #E0E0E0;
+  --progress-bar-bg:  #03292e;
+
+  /* Offline Message */
+  --offline-bg:     #FF4D4D;
+  --offline-text:   #FFFFFF;
+
+  /* Form Actions */
+  --form-actions-bg:    #28a745;
+  --form-actions-text:  #ffffff;
+
+  /* Reporting */
+  --reporting-bg:       #007bff;
+  --reporting-text:     #ffffff;
+}
+
+/* Dark theme overrides */
+.dark-theme {
+  --bg-page:        #071215;
+  --bg-container:   #2C3E50;
+  --bg-modal:       #011b1f;
+  --overlay-bg:     rgba(0, 0, 0, 0.7);
+  --splash-bg:      #18BC9C;
+
+  --text-primary:   #F5F5F5;
+  --text-heading:   #ffffff;
+  --text-inverse:   #ffffff;
+  --footer-text:    #08a4b6;
+
+  --border-color:   #0CE2F8;
+  --input-bg:       #1f5361;
+
+  --item-bg:        #13343e;
+  --item-border:    #0CE2F8;
+
+  --btn-bg:         #6990c2;
+  --btn-hover-bg:   #F5F5F5;
+  --btn-hover-text: #096480;
+
+  --success:        #28A745;
+  --warning:        #FFC107;
+  --error:          #b93030;
+  --info:           #FFDE59;
+  --accent:         #69c8d3;
+
+  --progress-bg:      #2C3E50;
+  --progress-bar-bg:  #111d29;
+
+  --offline-bg:     #B02A37;
+  --offline-text:   #F5F5F5;
+}
+
+/* Logo swapping for light vs. dark mode */
+.light-logo { display: block; }
+.dark-logo { display: none; }
+body.dark-theme .light-logo { display: none; }
+body.dark-theme .dark-logo { display: block; }
+
+/* =======================
+   2. RESET & BASE STYLES
+   ======================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-page);
+  padding: 5px 5px 0;
+  line-height: 1.5;
+  color: #95c3d8;
+}
+
+/* =======================
+   3. CONTAINER & TOGGLE
+   ======================= */
+.container {
+  position: relative;
+  max-width: 600px;
+  margin: auto;
+  background-color: var(--bg-container);
+  padding: 1.25rem;
+  border-radius: 30px;
+  box-shadow: inset 0 6px 5px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--btn-bg);
+  color: var(--text-inverse);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* =======================
+   4. HEADER
+   ======================= */
+.header-container,
+.app-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.header-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 14px auto;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.header-title .main-title {
+  margin-top: 0.25rem;  /* space between title & subtitle */
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--text-heading);
+  letter-spacing: 2px;
+  line-height: 1.05;
+  margin-bottom: 2px;
+}
+
+.header-title {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.header-title .sub-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+}
+
+#form-heading {
+  color: #fa6262;      /* your desired colour */
+  font-size: 1.5rem;   /* if you also want to adjust size */
+  margin-bottom: 1rem; /* spacing from the form below */
+}
+
+/* =======================
+   5. PROGRESS BAR
+   ======================= */
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--progress-bar-bg);
+  padding: 5px 10px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar {
+  width: 45%;
+  max-width: 400px;
+  height: 20px;
+  background: var(--progress-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--progress-width, 0%);
+  height: 100%;
+  transition: width 0.3s ease;
+  background: var(--accent);
+}
+
+.progress-bar.red::before { background: var(--error); }
+.progress-bar.amber::before { background: var(--warning); }
+.progress-bar.green::before { background: var(--success); }
+
+.progress-text {
+  margin-left: 10px;
+  font-size: 0.95rem;
+  color: var(--info);
+}
+
+/* =======================
+   6. FORMS & INPUTS
+   ======================= */
+.input-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: var(--text-heading);
+  margin-bottom: 0.5rem;
+}
+
+.input,
+.select,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus,
+.select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 5px rgba(12, 226, 248, 0.5);
+}
+
+/* =======================
+   7. CHECKLIST ITEMS
+   ======================= */
+.checklist-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid var(--item-border);
+  border-radius: 8px;
+  background-color: var(--item-bg);
+}
+
+.task-description {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  color: var(--text-heading);
+}
+
+.radio-group input[type='radio'] {
+  margin-right: 5px;
+}
+
+/* =======================
+   8. COMMENTS
+   ======================= */
+.comments-container {
+  margin-top: 10px;
+}
+
+.comments-input {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.comments-input:disabled {
+  background-color: #909499;
+  cursor: not-allowed;
+}
+
+.add-comment {
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.add-comment:hover,
+.add-comment:focus {
+  background-color: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+.comment-required {
+  display: block;
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 3px;
+}
+
+.comment-required.hidden {
+  display: none;
+}
+
+/* =======================
+   9. BUTTONS & FIELDSETS
+   ======================= */
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  background-color: var(--btn-hover-bg);
+  color: #03292e;
+}
+
+#export-report { background-color: #319b43; }
+#export-report:hover { background-color: #59a066; }
+
+#export-pdf { background-color: #319b43; }
+#export-pdf:hover { background-color: #59a066; }
+
+#clear-form { background-color: var(--error); }
+#clear-form:hover { background-color: #ffffff; }
+
+#check-all-yes { background-color: var(--btn-bg); }
+#check-all-yes:hover { background-color: var(--btn-hover-bg); }
+
+#load-progress,
+#save-progress { background-color: #50a0f7; }
+#load-progress:hover,
+#save-progress:hover { background-color: #acd2fc; }
+
+#check-update { background-color: #fca400; }
+#check-update:hover { background-color: #b17301; color: var(--text-heading); }
+
+#report-status {
+  margin: 1rem 0;
+  font-weight: bold;
+  font-size: 1.0rem;
+  color: var(--text-heading);
+  text-align: center;
+  width: 100%;
+}
+
+#clear-reports { background-color: var(--error); }
+#clear-reports:hover { background-color: #ffffff; }
+
+fieldset {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+legend {
+  font-weight: bold;
+  color: var(--text-heading);
+  padding: 0 0.5rem;
+  margin-left: 0.5rem;
+}
+
+/* Form Actions */
+#form-actions legend { color: var(--form-actions-bg); }
+#form-actions button {
+  background-color: var(--form-actions-bg);
+  color: var(--form-actions-text);
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+}
+#form-actions button:hover { filter: brightness(0.9); }
+
+/* Reporting */
+#reporting legend { color: var(--reporting-bg); }
+#reporting button {
+  background-color: var(--reporting-bg);
+  color: var(--reporting-text);
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+}
+#reporting button:hover { filter: brightness(0.9); }
+
+/* Progress & Updates */
+#progress-updates legend { color: var(--progress-bg); }
+#progress-updates button {
+  background-color: var(--progress-bg);
+  color: var(--progress-text);
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+}
+#progress-updates button:hover { filter: brightness(0.9); }
+
+/* =======================
+   10. MODAL & SIGNATURE PAD
+   ======================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+  background-color: var(--bg-modal);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.signature-pad {
+  width: 100%;
+  height: 200px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  margin-bottom: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* =======================
+   11. ERROR STYLES
+   ======================= */
+.error-message {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.error-message.hidden { display: none; }
+
+.error-highlight {
+  border-color: var(--error);
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+}
+
+/* =======================
+   12. OFFLINE MESSAGE
+   ======================= */
+#offline-message {
+  background-color: var(--offline-bg);
+  color: var(--offline-text);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+#offline-message.hidden { display: none; }
+
+/* =======================
+   13. SPLASH SCREEN
+   ======================= */
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--splash-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.splash-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =======================
+   14. REPORT LIST
+   ======================= */
+#report-list {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: var(--bg-container);
+  border-radius: 8px;
+}
+
+#report-list h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--text-heading);
+}
+
+#report-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#report-items li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--item-border);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+#report-items li:last-child { border-bottom: none; }
+
+.report-meta {
+  flex: 1;
+  line-height: 1.3;
+}
+
+.report-date,
+.report-supervisor,
+.report-unit {
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-weight: normal;
+}
+
+.delete-report {
+  background-color: #b93030;
+  color: var(--text-inverse);
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: 1rem;
+}
+
+.delete-report:hover {
+  background-color: #790000;
+  color: #ffffff;
+}
+
+/* =======================
+   15. FOOTER
+   ======================= */
+.footer-logo {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  margin: 10px auto 2px;
+  display: block;
+  object-fit: cover;
+}
+
+.footer-text {
+  color: var(--footer-text);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 5px 0;
+}
+
+/* =======================
+   16. RESPONSIVE DESIGN
+   ======================= */
+@media (max-width: 600px) {
+  .container { padding: 1rem; }
+  .app-header { flex-direction: column; text-align: center; }
+  .header-logo { margin: 14px auto 10px; }
+  .progress-bar { width: 70%; }
+  button { width: 100%; margin: 5px 0; }
+}
+
+/* Toast container: fixed position */
+#toast-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Toast message style */
+.toast {
+  min-width: 200px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto;
+}
+
+/* Show state */
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
