@@ -130,8 +130,8 @@ body {
 .theme-toggle {
   /* size to content, override any global full-width rules */
   display: inline-flex;
-  width: 4%;
-  min-width: 4%;
+  width: auto !important;
+  min-width: unset !important;
   box-sizing: content-box;
 
   /* position in top-right of container */
@@ -651,14 +651,9 @@ legend {
 @media (max-width: 600px) {
   .container { padding: 1rem; }
   .app-header { flex-direction: column; text-align: center; }
-  .header-logo { margin-right: 0; margin-bottom: 10px; }
+  .header-logo { margin: 14px auto 10px; }
   .progress-bar { width: 70%; }
-
-  /* only stretch form buttons, not the theme toggle */
-  button:not(.theme-toggle) {
-    width: 40%;
-    margin: 5px 0;
-  }
+  button { width: 100%; margin: 5px 0; }
 }
 
 /* Toast container: fixed position */
