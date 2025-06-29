@@ -1,6 +1,5 @@
 const CACHE_NAME = 'check-lib-cache-v6';
 const ASSETS_TO_CACHE = [
-    `/`,
     `index.html`,
     `style.css`,
     `checklist.js`,
