@@ -665,9 +665,12 @@ legend {
 
   /* Show the Install button as its own block, right below the toggle */
   #install-app {
+    position: absolute;
+    top: 3.5rem;   /* adjust as needed */
+    right: 1rem;
     display: block;
     width: auto;
-    margin: 0.5rem auto; /* add some breathing room */
+    margin: 0;
   }
 }
 
