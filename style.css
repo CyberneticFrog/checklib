@@ -187,7 +187,9 @@ body {
 .header-title {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* keep button left‐aligned with text */
+  align-items: center;    /* center children horizontally */
+  text-align: center;     /* center text in each span */
+  width: 100%;            /* ensure it spans its container */
 }
 
 /* Give the install button a little breathing room */
