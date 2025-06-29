@@ -656,6 +656,12 @@ legend {
   button { width: 100%; margin: 5px 0; }
 }
 
+/* …but not the theme toggle */
+  .theme-toggle {
+    width: auto !important;
+    margin: 0 !important;
+  }
+
 /* Toast container: fixed position */
 #toast-container {
   position: fixed;
