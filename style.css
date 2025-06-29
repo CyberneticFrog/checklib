@@ -656,6 +656,22 @@ legend {
   button { width: 100%; margin: 5px 0; }
 }
 
+@media (max-width: 600px) {
+  /* Prevent the dark-mode button from going full-width */
+  .theme-toggle {
+    width: auto !important;
+    margin: 0; /* reset the mobile button margin */
+  }
+
+  /* Show the Install button as its own block, right below the toggle */
+  #install-app {
+    display: block;
+    width: auto;
+    margin: 0.5rem auto; /* add some breathing room */
+  }
+}
+
+
 /* Toast container: fixed position */
 #toast-container {
   position: fixed;
