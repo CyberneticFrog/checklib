@@ -131,7 +131,7 @@ body {
   /* size to content, override any global full-width rules */
   display: inline-flex;
   width: 4%;
-  min-width: unset !important;
+  min-width: 4%;
   box-sizing: content-box;
 
   /* position in top-right of container */
