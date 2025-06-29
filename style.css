@@ -651,10 +651,10 @@ legend {
 @media (max-width: 600px) {
   .container { padding: 1rem; }
   .app-header { flex-direction: column; text-align: center; }
-  .header-logo { margin: 14px auto 10px; }
+  .header-logo { margin-right: 0; margin-bottom: 10px; }
   .progress-bar { width: 70%; }
 
-  /* …but not the theme toggle */
+  /* only stretch form buttons, not the theme toggle */
   button:not(.theme-toggle) {
     width: 100%;
     margin: 5px 0;
