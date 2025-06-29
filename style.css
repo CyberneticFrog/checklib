@@ -127,6 +127,11 @@ body {
 }
 
 .theme-toggle {
+  display: inline-flex;
+  width: auto !important;
+  min-width: unset !important;
+  padding: 0.5rem;       /* keep your existing padding */
+  box-sizing: content-box;
   position: absolute;
   top: 1rem;
   right: 1rem;
