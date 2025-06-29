@@ -130,8 +130,7 @@ body {
 .theme-toggle {
   /* size to content, override any global full-width rules */
   display: inline-flex;
-  width: 100%;
-  margin: 5px 0;
+  width: auto !important;
   min-width: unset !important;
   box-sizing: content-box;
 
@@ -657,7 +656,7 @@ legend {
 
   /* only stretch form buttons, not the theme toggle */
   button:not(.theme-toggle) {
-    width: 100%;
+    width: 50%;
     margin: 5px 0;
   }
 }
