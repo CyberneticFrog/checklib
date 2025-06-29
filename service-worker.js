@@ -1,17 +1,16 @@
-const CACHE_NAME = 'check-lib-cache-v5';
-const BASE_PATH = '/';
+const CACHE_NAME = 'check-lib-cache-v6';
 const ASSETS_TO_CACHE = [
-    `${BASE_PATH}`,
-    `${BASE_PATH}index.html`,
-    `${BASE_PATH}style.css`,
-    `${BASE_PATH}checklist.js`,
-    `${BASE_PATH}accomm1.png`,
-    `${BASE_PATH}cyber1.png`,
-    `${BASE_PATH}splash.png`,
-    `${BASE_PATH}manifest.json`,
-    `${BASE_PATH}checks/checklist_b.csv`,
-    `${BASE_PATH}checks/checklist_25.csv`,
-    `${BASE_PATH}checklists.json`,
+    `/`,
+    `index.html`,
+    `style.css`,
+    `checklist.js`,
+    `accomm1.png`,
+    `cyber1.png`,
+    `splash.png`,
+    `manifest.json`,
+    `checks/checklist_b.csv`,
+    `checks/checklist_25.csv`,
+    `checklists.json`,
     'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
     'https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js'

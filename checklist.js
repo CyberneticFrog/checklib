@@ -1,7 +1,5 @@
 // checklist.js
 
-const BASE_PATH = '/';
-
 // Persisted storage
 let reportData  = JSON.parse(localStorage.getItem('reportData')  || '[]');
 let reportCount = parseInt(localStorage.getItem('reportCount') || '0', 10);
@@ -35,8 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const signatureError        = document.getElementById('signature-error');
   const themeToggle           = document.getElementById('theme-toggle');
   const splashScreen          = document.querySelector('.splash-screen');
-  const BASE_PATH = '/';
   const PDF_META_FIELDS = ['date', 'supervisor', 'cleaner', 'unit'];
+
+
 
   // Persisted storage
   let reportData  = JSON.parse(localStorage.getItem('reportData')  || '[]');
@@ -310,7 +309,7 @@ document.getElementById('install-app').addEventListener('click', async () => {
 
   function loadChecklist(id) {
     updateChecklistTitle(id);
-    fetch(`${BASE_PATH}checks/${id}.csv`)
+    fetch(`checks/${id}.csv`)
       .then(res => {
         if (!res.ok) throw new Error(res.statusText);
         return res.text();
@@ -805,27 +804,35 @@ exportReportButton.addEventListener('click', exportGroupedPDFs);
   // SERVICE WORKER
   // ────────────────
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(`${BASE_PATH}service-worker.js`)
+    navigator.serviceWorker
+      .register('service-worker.js', { scope: './' })
       .then(reg => {
+        console.log('Service Worker registered successfully.');
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state==='installed' && navigator.serviceWorker.controller) {
-              alert('New version available—click OK to update.');
-              newWorker.postMessage({ action:'skipWaiting' });
+              if (confirm('New version available—click OK to update.')) {
+                newWorker.postMessage({ action:'skipWaiting' });
+              }
             }
           });
         });
       })
       .catch(err => console.error('SW registration failed:', err));
 
-    checkUpdateButton.addEventListener('click', () => {
-      navigator.serviceWorker.getRegistration().then(reg => reg && reg.update());
-    });
+    // “Check for updates” button
+    checkUpdateButton.addEventListener('click', () =>
+      navigator.serviceWorker.getRegistration().then(reg => reg && reg.update())
+    );
+
+    // When the new SW takes over, persist & reload
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      saveProgress(); window.location.reload();
+      saveProgress();
+      window.location.reload();
     });
   }
+
 
   // ────────────────────────────
   // METADATA & INITIAL LOAD
@@ -845,7 +852,7 @@ exportReportButton.addEventListener('click', exportGroupedPDFs);
 
   async function loadChecklistMetadata() {
     try {
-      const res = await fetch(`${BASE_PATH}checklists.json`);
+      const res = await fetch(`checklists.json`);
       if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       checklistMetadata = data.reduce((o,i)=> (o[i.id]={title:i.title},o),{});
