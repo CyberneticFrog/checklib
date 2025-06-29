@@ -130,7 +130,8 @@ body {
 .theme-toggle {
   /* size to content, override any global full-width rules */
   display: inline-flex;
-  width: auto !important;
+  width: 100%;
+  margin: 5px 0;
   min-width: unset !important;
   box-sizing: content-box;
 
