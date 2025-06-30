@@ -1,120 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#31849B">
-    <title>Check Lib</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="logo.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#31849B">
+  <title>Check Lib</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body>
-    <div class="splash-screen">
-        <img src="splash.png" alt="Splash Screen" class="splash-image">
-    </div>
+  <!-- 1) SPLASH SCREEN: shown immediately -->
+  <div id="splash-screen" class="splash-screen">
+    <img src="splash.png" alt="Loading…" class="splash-image">
+  </div>
+
+  <!-- 2) MAIN APP: hidden until splash completes -->
+  <div id="app" style="visibility: hidden;">
     <div class="progress-container">
-        <div class="progress-bar" id="progress-bar"></div>
-        <span class="progress-text">Progress</span>
+      <div class="progress-bar" id="progress-bar"></div>
+      <span class="progress-text">Progress</span>
     </div>
+
     <div class="container">
-        <div class="header-container">
-             <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-             <button id="install-app" hidden>Install App</button>
-            <header class="app-header">
-                <img src="logo.png"         alt="Logo" class="header-logo light-logo">
-                <img src="logo-dark.png"    alt="Logo" class="header-logo dark-logo">
-                <div class="header-title">
-                    <span class="main-title">Check Library</span>
-                    <span class="sub-title" id="checklist-title">Checklist B</span>
-                </div>
-            </header>
+      <div class="header-container">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        <header class="app-header">
+          <img src="logo.png" alt="Logo" class="header-logo light-logo">
+          <img src="logo-dark.png" alt="Logo" class="header-logo dark-logo">
+          <div class="header-title">
+            <span class="main-title">Check Library</span>
+            <span class="sub-title" id="checklist-title">Checklist B</span>
+            <button id="install-app" hidden>Install App</button>
+          </div>
+        </header>
+      </div>
+
+      <div id="offline-message" class="hidden">You are offline. Some features may be limited.</div>
+      <h2 id="form-heading">Please Complete All Fields</h2>
+
+      <form id="checklist-form" autocomplete="off">
+        <div class="input-group">
+          <label for="checklist-select">Select Checklist:</label>
+          <select id="checklist-select" class="select"></select>
         </div>
-        <div id="offline-message" class="hidden">You are offline. Some features may be limited.</div>
-        <h2 id="form-heading">Please Complete All Fields</h2>
-        <form id="checklist-form" autocomplete="off">
-            <div class="input-group">
-                <label for="checklist-select">Select Checklist:</label>
-                <select id="checklist-select" class="select">
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="checklist-date">Date:</label>
-                <input type="date" id="checklist-date" class="input" required>
-                <div id="error-checklist-date" class="error-message hidden"></div>
-            </div>
-            <div class="input-group">
-                <label for="supervisor">Team Leader / Manager:</label>
-                <input type="text" id="supervisor" class="input" required>
-                <div id="error-supervisor" class="error-message hidden"></div>
-            </div>
-            <div class="input-group">
-                <label for="cleaner-team">Cleaner/Team Member:</label>
-                <input type="text" id="cleaner-team" class="input" required>
-                <div id="error-cleaner-team" class="error-message hidden"></div>
-            </div>
-            <div class="input-group">
-                <label for="unit-area">Unit/Area:</label>
-                <input type="text" id="unit-area" class="input" required>
-                <div id="error-unit-area" class="error-message hidden"></div>
-            </div>
-            </div>
-            <div id="checklist-container">
-                </div>
 
-            <fieldset>
-                <legend>Form Actions</legend>
-                <button type="button" id="check-all-yes">Check All Yes</button>
-                <button type="button" id="clear-form">Clear Form</button>
-            </fieldset>
-
-            <fieldset>
-                <legend>Reporting</legend>
-                <button type="button" id="add-to-report">Add to Report</button>
-                <button type="button" id="export-report">Export All Reports as PDF</button>
-                <button type="button" id="export-pdf">Export Single Report as PDF</button>
-                <button type="button" id="clear-reports">Clear All Reports</button>
-            </fieldset>
-
-            <fieldset>
-                <legend>Progress & Updates</legend>
-                <button type="button" id="save-progress">Save Progress</button>
-                <button type="button" id="load-progress">Load Progress</button>
-                <button type="button" id="check-update">Check for App Updates</button>
-            </fieldset>
-
-            <div id="report-status">
-              Reports Added: <span id="report-count">0</span>
-            </div>
-            <!-- REPORT‐LIST ↓ -->
-            <div id="report-list">
-              <h3>Reports in Queue</h3>
-              <ul id="report-items"></ul>
-            </div>
-            <!-- ↑ end REPORT‐LIST -->
-        </form>
-        <div class="modal hidden" id="signature-modal">
-            <div class="modal-content">
-                <h3>Sign to Finalise Checklist</h3>
-                <canvas id="signature-pad" class="signature-pad"></canvas>
-                <span id="signature-error" class="error-message hidden">Please provide a signature.</span>
-                <div class="modal-buttons">
-                    <button id="clear-signature">Clear</button>
-                    <button id="confirm-signature">Confirm</button>
-                    <button id="cancel-signature">Cancel</button>
-                </div>
-            </div>
+        <div class="input-group">
+          <label for="checklist-date">Date:</label>
+          <input type="date" id="checklist-date" class="input" required>
+          <div id="error-checklist-date" class="error-message hidden"></div>
         </div>
+
+        <div class="input-group">
+          <label for="supervisor">Team Leader / Manager:</label>
+          <input type="text" id="supervisor" class="input" required>
+          <div id="error-supervisor" class="error-message hidden"></div>
+        </div>
+
+        <div class="input-group">
+          <label for="cleaner-team">Cleaner/Team Member:</label>
+          <input type="text" id="cleaner-team" class="input" required>
+          <div id="error-cleaner-team" class="error-message hidden"></div>
+        </div>
+
+        <div class="input-group">
+          <label for="unit-area">Unit/Area:</label>
+          <input type="text" id="unit-area" class="input" required>
+          <div id="error-unit-area" class="error-message hidden"></div>
+        </div>
+
+        <div id="checklist-container"></div>
+
+        <fieldset>
+          <legend>Form Actions</legend>
+          <button type="button" id="check-all-yes">Check All Yes</button>
+          <button type="button" id="clear-form">Clear Form</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Reporting</legend>
+          <button type="button" id="add-to-report">Add to Report</button>
+          <button type="button" id="export-report">Export All Reports as PDF</button>
+          <button type="button" id="export-pdf">Export Single Report as PDF</button>
+          <button type="button" id="clear-reports">Clear All Reports</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Progress & Updates</legend>
+          <button type="button" id="save-progress">Save Progress</button>
+          <button type="button" id="load-progress">Load Progress</button>
+          <button type="button" id="check-update">Check for App Updates</button>
+        </fieldset>
+
+        <div id="report-status">
+          Reports Added: <span id="report-count">0</span>
+        </div>
+
+        <!-- REPORT LIST -->
+        <div id="report-list">
+          <h3>Reports in Queue</h3>
+          <ul id="report-items"></ul>
+        </div>
+      </form>
+
+      <!-- SIGNATURE MODAL -->
+      <div class="modal hidden" id="signature-modal">
+        <div class="modal-content">
+          <h3>Sign to Finalise Checklist</h3>
+          <canvas id="signature-pad" class="signature-pad"></canvas>
+          <span id="signature-error" class="error-message hidden">Please provide a signature.</span>
+          <div class="modal-buttons">
+            <button id="clear-signature">Clear</button>
+            <button id="confirm-signature">Confirm</button>
+            <button id="cancel-signature">Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- FOOTER -->
     <footer>
-        <img src="cyber1.png" alt="Check Lib Footer Logo" class="footer-logo">
-        <p class="footer-text">© 2025 Check Lib - CYBRFRG<br>For Internal Business Use Only</p>
+      <img src="cyber1.png" alt="Check Lib Footer Logo" class="footer-logo">
+      <p class="footer-text">© 2025 Check Lib - CYBRFRG<br>For Internal Business Use Only</p>
     </footer>
-    <script src="checklist.js"></script>
-      <!-- Toast container -->
+  </div>
+
+  <!-- Toast container -->
   <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="checklist.js"></script>
 </body>
 </html>

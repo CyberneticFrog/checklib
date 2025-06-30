@@ -838,17 +838,7 @@ exportReportButton.addEventListener('click', exportGroupedPDFs);
   // METADATA & INITIAL LOAD
   // ────────────────────────────
 
-  /**
-   * Fade and then remove the splash screen element.
-   */
-  function hideSplashScreen() {
-    if (!splashScreen) return;
-    splashScreen.style.transition = 'opacity 0.5s ease';
-    splashScreen.style.opacity = '0';
-    setTimeout(() => {
-      splashScreen.style.display = 'none';
-    }, 500);
-  }
+
 
   async function loadChecklistMetadata() {
     try {
@@ -861,7 +851,6 @@ exportReportButton.addEventListener('click', exportGroupedPDFs);
       checklistSelect.value = last && checklistMetadata[last] ? last : data[0].id;
       loadChecklist(checklistSelect.value);
       updateProgressBar();
-      hideSplashScreen();
     } catch (e) {
       console.error('Metadata load failed:', e);
       alert('Could not load available checklists.');
@@ -905,4 +894,18 @@ exportReportButton.addEventListener('click', exportGroupedPDFs);
     }
   });
   window.addEventListener('resize', resizeCanvas);
+});
+
+// ─────────────────────────────────────────────────────────────────
+// Keep splash up for exactly 3 seconds, then remove it and show the app
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    // 1) Remove the splash overlay
+    const splash = document.getElementById('splash-screen');
+    if (splash) splash.remove();
+
+    // 2) Reveal the main app container
+    const app = document.getElementById('app');
+    if (app) app.style.visibility = 'visible';
+  }, 3000); // 3000 ms = 3 seconds
 });
