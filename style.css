@@ -11,7 +11,7 @@
 
   /* Typography */
   --text-primary:   #13343e;
-  --text-heading:   #71bace;
+  --text-heading:   #228daa;
   --text-inverse:   #FFFFFF;
   --footer-text:    #08a4b6;
 
@@ -679,6 +679,17 @@ legend {
     width: auto !important;
     margin: 0; /* reset the mobile button margin */
   }
+
+@media (max-width: 600px) {
+  /* Opt .delete-report buttons out of full-width styling */
+  .delete-report {
+    width: auto !important;
+    display: inline-block !important;
+    /* you can tweak these margins for spacing: */
+    margin: 0.25rem 0 0.25rem 1rem;
+  }
+}
+
 
   /* Show the Install button as its own block, right below the toggle */
   #install-app {
