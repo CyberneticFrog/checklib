@@ -599,13 +599,18 @@ legend {
   font-size: 11px;
 }
 
+/* Center the “Learn More” button inside the modal */
 #tutorial-modal #tutorial-learn-more {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-heading);
-  text-align: center;
   background: none;
   border: none;
   cursor: pointer;
+
+  /* ensure it doesn’t stretch full-width */
+  display: inline-block !important;
+  /* auto-center within the parent’s text-align or block context */
+  margin: 0.5rem auto;
 }
 
 #tutorial-modal .modal-actions {
