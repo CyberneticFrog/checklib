@@ -602,6 +602,7 @@ legend {
 #tutorial-modal #tutorial-learn-more {
   font-size: 11px;
   color: var(--text-heading);
+  text-align: center;
   background: none;
   border: none;
   cursor: pointer;
