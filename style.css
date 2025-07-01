@@ -4,76 +4,78 @@
 :root {
   /* Layout & Containers */
   --bg-page:        #1f5361;
-  --bg-container:   #d5e6eb;
-  --bg-modal:       #011b1f;
+  --bg-container:   #E6F0FA; /* Updated: Lighter, more cohesive with teal theme */
+  --bg-modal:       #E6F0FA; /* Updated: Matches --bg-container */
   --overlay-bg:     rgba(0, 0, 0, 0.5);
   --splash-bg:      #31849B;
 
   /* Typography */
   --text-primary:   #13343e;
-  --text-heading:   #228daa;
+  --text-heading:   #69c8d3; /* Updated: Matches --accent for consistency */
   --text-inverse:   #FFFFFF;
-  --footer-text:    #08a4b6;
+  --footer-text:    #69c8d3; /* Updated: Matches --text-heading */
 
   /* Borders & Inputs */
   --border-color:   #31849B;
   --input-bg:       #FFFFFF;
 
   /* Components */
-  --item-bg:        #f9f9f9;
+  --item-bg:        #F9F9F9;
   --item-border:    #e0e0e0;
 
   /* Buttons */
   --btn-bg:         #31849B;
   --btn-hover-bg:   #0CE2F8;
-  --btn-hover-text: #FFFFFF;
+  --btn-hover-text: #13343e; /* Updated: Matches --text-primary for contrast */
+  --btn-error-bg:   #b93030; /* Added: For error buttons like clear-form */
 
   /* Status Colors */
   --success:        #28A745;
   --warning:        #FFC107;
   --error:          #b93030;
   --info:           #FFDE59;
-  --accent:         #0481bb;
+  --accent:         #69c8d3; /* Updated: Softer teal for headings, footer */
 
   /* Progress Bar */
   --progress-bg:      #E0E0E0;
   --progress-bar-bg:  #03292e;
 
   /* Offline Message */
-  --offline-bg:     #FF4D4D;
+  --offline-bg:     #b93030; /* Updated: Matches --error */
   --offline-text:   #FFFFFF;
 
   /* Form Actions */
-  --form-actions-bg:    #28a745;
-  --form-actions-text:  #ffffff;
+  --form-actions-bg:    #31849B; /* Updated: Matches --btn-bg */
+  --form-actions-text:  #FFFFFF;
 
   /* Reporting */
-  --reporting-bg:       #007bff;
-  --reporting-text:     #ffffff;
+  --reporting-bg:       #31849B; /* Updated: Matches --btn-bg */
+  --reporting-text:     #FFFFFF;
 }
 
 /* Dark theme overrides */
 .dark-theme {
   --bg-page:        #071215;
-  --bg-container:   #2C3E50;
-  --bg-modal:       #011b1f;
+  --bg-container:   #1C2526; /* Updated: Darker, more cohesive */
+  --bg-modal:       #1C2526; /* Updated: Matches --bg-container */
   --overlay-bg:     rgba(0, 0, 0, 0.7);
-  --splash-bg:      #18BC9C;
+  --splash-bg:      #31849B; /* Kept: Matches light theme for branding */
 
   --text-primary:   #F5F5F5;
-  --text-heading:   #ffffff;
-  --text-inverse:   #ffffff;
-  --footer-text:    #08a4b6;
+  --text-heading:   #69c8d3;
+  --text-inverse:   #FFFFFF;
+  --footer-text:    #69c8d3;
 
   --border-color:   #0CE2F8;
-  --input-bg:       #1f5361;
+  --input-bg:       #2C3E50; /* Updated: Matches --bg-container */
 
-  --item-bg:        #13343e;
+  --item-bg:        #2C3E50;
   --item-border:    #0CE2F8;
 
-  --btn-bg:         #6990c2;
-  --btn-hover-bg:   #F5F5F5;
-  --btn-hover-text: #096480;
+  --btn-bg:         #31849B; /* Updated: Consistent with light theme */
+  --btn-hover-bg:   #0CE2F8;
+  --btn-hover-text: #F5F5F5;
+  --btn-error-bg:   #b93030;
 
   --success:        #28A745;
   --warning:        #FFC107;
@@ -84,7 +86,7 @@
   --progress-bg:      #2C3E50;
   --progress-bar-bg:  #111d29;
 
-  --offline-bg:     #B02A37;
+  --offline-bg:     #b93030;
   --offline-text:   #F5F5F5;
 }
 
@@ -110,10 +112,11 @@ body {
   background-color: var(--bg-page);
   padding: 5px 5px 0;
   line-height: 1.5;
-  color: #95c3d8;
+  color: var(--text-primary); /* Updated: Uses --text-primary */
 }
 
-/* 3. CONTAINER & TOGGLE
+/* =======================
+   3. CONTAINER & TOGGLE
    ======================= */
 .container {
   position: relative;
@@ -128,26 +131,19 @@ body {
 }
 
 .theme-toggle {
-  /* size to content, override any global full-width rules */
   display: inline-flex;
   width: auto !important;
   min-width: unset !important;
   box-sizing: content-box;
-
-  /* position in top-right of container */
   position: absolute;
   top: 1rem;
   right: 1rem;
-
-  /* visual styling */
   padding: 0.5rem;
   background: var(--btn-bg);
   color: var(--text-inverse);
   border: none;
   border-radius: 4px;
   cursor: pointer;
-
-  /* icon sizing */
   font-size: 1.2rem;
   line-height: 1;
 }
@@ -174,7 +170,7 @@ body {
 }
 
 .header-title .main-title {
-  margin-top: 0.25rem;  /* space between title & subtitle */
+  margin-top: 0.25rem;
   font-size: 1.8rem;
   font-weight: bold;
   color: var(--text-heading);
@@ -183,20 +179,27 @@ body {
   margin-bottom: 2px;
 }
 
-/* Stack title, subtitle, then install‐button */
 .header-title {
   display: flex;
   flex-direction: column;
-  align-items: center;    /* center children horizontally */
-  text-align: center;     /* center text in each span */
-  width: 100%;            /* ensure it spans its container */
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
-/* Give the install button a little breathing room */
 .header-title #install-app {
   margin-top: 0.5rem;
-  padding: 0.4rem 0.8rem; /* match your other buttons */
-  display: inline-block; /* ensure it sizes to its content */
+  padding: 0.4rem 0.8rem;
+  background: var(--btn-bg); /* Updated: Uses variable */
+  color: var(--text-inverse);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header-title #install-app:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
 }
 
 .header-title .sub-title {
@@ -207,9 +210,9 @@ body {
 }
 
 #form-heading {
-  color: #fa6262;      /* your desired colour */
-  font-size: 1.5rem;   /* if you also want to adjust size */
-  margin-bottom: 1rem; /* spacing from the form below */
+  color: var(--text-heading); /* Updated: Matches headings */
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 /* =======================
@@ -291,7 +294,7 @@ textarea {
 textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 5px rgba(12, 226, 248, 0.5);
+  box-shadow: 0 0 5px rgba(105, 200, 211, 0.5); /* Updated: Matches --accent */
 }
 
 /* =======================
@@ -382,8 +385,8 @@ textarea:focus {
    9. BUTTONS & FIELDSETS
    ======================= */
 button {
-  padding: 7px 7px;
-  margin: 5px;
+  padding: 0.5rem 1rem; /* Updated: Consistent with form-actions */
+  margin: 0.5rem; /* Updated: Standardized */
   border: none;
   border-radius: 4px;
   background-color: var(--btn-bg);
@@ -395,28 +398,50 @@ button {
 
 button:hover {
   background-color: var(--btn-hover-bg);
-  color: #03292e;
+  color: var(--btn-hover-text);
 }
 
-#export-report { background-color: #319b43; }
-#export-report:hover { background-color: #59a066; }
+#export-report, #export-pdf {
+  background-color: var(--btn-bg); /* Updated: Matches other buttons */
+}
 
-#export-pdf { background-color: #319b43; }
-#export-pdf:hover { background-color: #59a066; }
+#export-report:hover, #export-pdf:hover {
+  background-color: var(--btn-hover-bg);
+}
 
-#clear-form { background-color: var(--error); }
-#clear-form:hover { background-color: #ffffff; }
+#clear-form, #clear-reports {
+  background-color: var(--btn-error-bg); /* Updated: Uses error variable */
+}
 
-#check-all-yes { background-color: var(--btn-bg); }
-#check-all-yes:hover { background-color: var(--btn-hover-bg); }
+#clear-form:hover, #clear-reports:hover {
+  background-color: #790000; /* Updated: Darker error shade */
+  color: var(--text-inverse);
+}
 
-#load-progress,
-#save-progress { background-color: #50a0f7; }
-#load-progress:hover,
-#save-progress:hover { background-color: #acd2fc; }
+#check-all-yes {
+  background-color: var(--btn-bg);
+}
 
-#check-update { background-color: #fca400; }
-#check-update:hover { background-color: #b17301; color: var(--text-heading); }
+#check-all-yes:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+#load-progress, #save-progress {
+  background-color: var(--btn-bg); /* Updated: Matches other buttons */
+}
+
+#load-progress:hover, #save-progress:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+#check-update {
+  background-color: var(--warning); /* Updated: Uses warning for consistency */
+}
+
+#check-update:hover {
+  background-color: #D4A017; /* Updated: Darker warning shade */
+  color: var(--text-inverse);
+}
 
 #report-status {
   margin: 1rem 0;
@@ -426,9 +451,6 @@ button:hover {
   text-align: center;
   width: 100%;
 }
-
-#clear-reports { background-color: var(--error); }
-#clear-reports:hover { background-color: #ffffff; }
 
 fieldset {
   border: 1px solid var(--border-color);
@@ -445,34 +467,37 @@ legend {
 }
 
 /* Form Actions */
-#form-actions legend { color: var(--form-actions-bg); }
+#form-actions legend { color: var(--text-heading); } /* Updated: Matches headings */
 #form-actions button {
-  background-color: var(--form-actions-bg);
-  color: var(--form-actions-text);
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
   padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
+  margin: 0.5rem; /* Updated: Consistent */
 }
-#form-actions button:hover { filter: brightness(0.9); }
+
+#form-actions button:hover { background-color: var(--btn-hover-bg); }
 
 /* Reporting */
-#reporting legend { color: var(--reporting-bg); }
+#reporting legend { color: var(--text-heading); }
 #reporting button {
-  background-color: var(--reporting-bg);
-  color: var(--reporting-text);
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
   padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
+  margin: 0.5rem;
 }
-#reporting button:hover { filter: brightness(0.9); }
+
+#reporting button:hover { background-color: var(--btn-hover-bg); }
 
 /* Progress & Updates */
-#progress-updates legend { color: var(--progress-bg); }
+#progress-updates legend { color: var(--text-heading); }
 #progress-updates button {
-  background-color: var(--progress-bg);
-  color: var(--progress-text);
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
   padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
+  margin: 0.5rem;
 }
-#progress-updates button:hover { filter: brightness(0.9); }
+
+#progress-updates button:hover { background-color: var(--btn-hover-bg); }
 
 /* =======================
    10. MODAL & SIGNATURE PAD
@@ -513,7 +538,115 @@ legend {
 .modal-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px; /* Updated: Matches tutorial-modal */
+}
+
+/* Style for Learn button to match Install App */
+#learn-button {
+  background: var(--btn-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 1rem; /* Updated: Consistent */
+  border: none;
+  font-size: 1rem; /* Updated: Matches buttons */
+  cursor: pointer;
+  margin: 0.5rem; /* Updated: Matches header buttons */
+}
+
+#learn-button:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+/* Modal styles to match #signature-modal */
+#tutorial-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay-bg);
+  z-index: 1000;
+}
+
+#tutorial-modal .modal-content {
+  background: var(--bg-modal);
+  margin: 5% auto;
+  padding: 20px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+}
+
+#tutorial-modal h2 {
+  color: var(--text-heading);
+  font-size: 16px;
+  text-align: center;
+}
+
+#tutorial-modal h3 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#tutorial-modal p {
+  font-size: 12px;
+}
+
+#tutorial-modal .tip {
+  font-style: italic;
+  font-size: 11px;
+}
+
+#tutorial-modal #tutorial-learn-more {
+  font-size: 11px;
+  color: var(--text-heading);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#tutorial-modal .modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+#tutorial-modal .modal-actions button, #tutorial-modal .modal-actions select {
+  background: var(--btn-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 1rem; /* Updated: Consistent */
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+#tutorial-modal .modal-actions button:hover, #tutorial-modal .modal-actions select:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+#tutorial-modal .modal-close {
+  text-align: center;
+  font-size: 11px;
+}
+
+#tutorial-modal .modal-close a {
+  color: var(--text-heading);
+  text-decoration: none;
+}
+
+/* Pulse effect for highlighting elements */
+@keyframes pulse {
+  0% { border-color: var(--border-color); }
+  50% { border-color: var(--text-inverse); }
+}
+.pulse {
+  border: 2px solid var(--border-color);
+  animation: pulse 1s infinite;
 }
 
 /* =======================
@@ -530,7 +663,7 @@ legend {
 
 .error-highlight {
   border-color: var(--error);
-  box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+  box-shadow: 0 0 5px rgba(185, 48, 48, 0.5); /* Updated: Matches --error */
 }
 
 /* =======================
@@ -551,17 +684,21 @@ legend {
 /* =======================
    13. SPLASH SCREEN
    ======================= */
-/* Splash overlay */
 #splash-screen {
-  position: fixed; top:0; left:0;
-  width:100vw; height:100vh;
-  background:#fff;
-  display:flex; align-items:center; justify-content:center;
-  z-index:9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--splash-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
-#splash-screen img { max-width:80%; }
 
-/* Hide app until ready */
+#splash-screen img { max-width: 80%; }
+
 #app { visibility: hidden; }
 
 .splash-image {
@@ -587,7 +724,6 @@ legend {
   margin-top: 1rem;
   padding: 0.5rem;
   background: var(--bg-container);
-  border-radius: 8px;
 }
 
 #report-list h3 {
@@ -628,7 +764,7 @@ legend {
 }
 
 .delete-report {
-  background-color: #b93030;
+  background-color: var(--btn-error-bg);
   color: var(--text-inverse);
   border: none;
   padding: 0.25rem 0.5rem;
@@ -640,7 +776,7 @@ legend {
 
 .delete-report:hover {
   background-color: #790000;
-  color: #ffffff;
+  color: var(--text-inverse);
 }
 
 /* =======================
@@ -670,40 +806,17 @@ legend {
   .app-header { flex-direction: column; text-align: center; }
   .header-logo { margin: 14px auto 10px; }
   .progress-bar { width: 70%; }
-  button { width: 100%; margin: 3px 0; }
-}
-
-@media (max-width: 600px) {
-  /* Prevent the dark-mode button from going full-width */
-  .theme-toggle {
+  button { width: 100%; margin: 0.5rem 0; } /* Updated: Consistent margin */
+  .theme-toggle, .delete-report, #install-app, #learn-button {
     width: auto !important;
-    margin: 0; /* reset the mobile button margin */
+    margin: 0.5rem; /* Updated: Consistent */
   }
-
-@media (max-width: 600px) {
-  /* Opt .delete-report buttons out of full-width styling */
-  .delete-report {
-    width: auto !important;
-    display: inline-block !important;
-    /* you can tweak these margins for spacing: */
-    margin: 0.25rem 0 0.25rem 1rem;
-  }
-}
-
-
-  /* Show the Install button as its own block, right below the toggle */
   #install-app {
-    position: absolute;
-    top: 3.5rem;   /* adjust as needed */
-    right: 1rem;
-    display: block;
-    width: auto;
-    margin: 0;
+    display: block; /* Simplified: No absolute positioning */
   }
 }
 
-
-/* Toast container: fixed position */
+/* Toast container */
 #toast-container {
   position: fixed;
   bottom: 1rem;
@@ -715,11 +828,10 @@ legend {
   pointer-events: none;
 }
 
-/* Toast message style */
 .toast {
   min-width: 200px;
-  background-color: rgba(1, 24, 39, 0.8);
-  color: #fff;
+  background-color: var(--bg-modal);
+  color: var(--text-inverse);
   padding: 0.75rem 1rem;
   border-radius: 0.25rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -729,7 +841,6 @@ legend {
   pointer-events: auto;
 }
 
-/* Show state */
 .toast.show {
   opacity: 1;
   transform: translateY(0);

@@ -1,0 +1,113 @@
+[
+  {
+    "stepId": "theme-toggle",
+    "title": "Switching Themes",
+    "description": "Click the theme button (sun/moon icon) to switch between light and dark modes.",
+    "tip": "Dark mode is great for low-light environments and saving your battery.",
+    "learnMore": "Theme preferences are saved in your browser for next time.",
+    "elementId": "theme-toggle",
+    "order": 1,
+    "image": "img/tut_theme-toggle.png",
+    "imageAlt": "Theme toggle button with sun/moon icon"
+  },
+  {
+    "stepId": "select-checklist",
+    "title": "Selecting a Checklist",
+    "description": "Choose a checklist from the dropdown at the top to load inspection tasks.",
+    "tip": "Checklists are named by inspection type, like ‘Safety’ or ‘Maintenance.’",
+    "learnMore": "Checklists are loaded from CSV files stored locally on your device.",
+    "elementId": "checklist-select",
+    "order": 2,
+    "image": "",
+    "imageAlt": ""
+  },
+  {
+    "stepId": "enter-metadata",
+    "title": "Entering Metadata",
+    "description": "Fill in the date, team leader or manager, cleaner or team member, and unit fields. These appear in your PDF reports.",
+    "tip": "Use a clear unit name, like ‘Kingfisher 14, K14 or Room 4,’ for easy reference.",
+    "learnMore": "Metadata is included in the PDF header for each report.",
+    "elementId": "checklist-form",
+    "order": 3,
+    "image": "",
+    "imageAlt": ""
+  },
+  {
+    "stepId": "fill-form",
+    "title": "Filling Out the Checklist",
+    "description": "For each task, select ‘Y’ (Yes), ‘N’ (No), or ‘NA’ (Not Applicable). If you select ‘N,’ add a comment to explain why. You can also add a comment if you choose 'Y', just click 'Add Comment'.",
+    "tip": "Comments help explain issues, like ‘Needs repair’ for a failed task.",
+    "learnMore": "Your answers are saved in browser storage when you add a report.",
+    "elementId": "checklist-container",
+    "order": 4,
+    "image": "",
+    "imageAlt": ""
+  },
+  {
+    "stepId": "add-report",
+    "title": "Adding to Report",
+    "description": "Click ‘Add to Report,’ then draw your signature to save the checklist to your reports.",
+    "tip": "Make sure all fields are filled, or you’ll see an error.",
+    "learnMore": "Your signature is saved as a PNG image with the report data.",
+    "elementId": "add-to-report",
+    "order": 5,
+    "image": "img/tut_add-report.png",
+    "imageAlt": "Add to Report button and signature pad"
+  },
+  {
+    "stepId": "manage-reports",
+    "title": "Managing Reports",
+    "description": "View saved reports in the list below. Click ‘Delete’ to remove a report.",
+    "tip": "Check the date and unit to find the right report.",
+    "learnMore": "Reports are stored in local browser storage as JSON data.",
+    "elementId": "report-items",
+    "order": 6,
+    "image": "img/tut_manage-reports.png",
+    "imageAlt": "List of saved reports with delete buttons"
+  },
+  {
+    "stepId": "export-pdfs",
+    "title": "Exporting PDFs",
+    "description": "Click ‘Export All Reports as PDF’ to save reports as PDF files with a table layout.",
+    "tip": "Each PDF includes a table of contents and your signature.",
+    "learnMore": "PDFs use a table format: Section | Task | Value | Comment.",
+    "elementId": "export-report",
+    "order": 7,
+    "image": "img/tut_export-pdfs.png",
+    "imageAlt": "Export All Reports as PDF button"
+  },
+  {
+    "stepId": "share-reports",
+    "title": "Sharing Reports",
+    "description": "Click ‘Share All Reports’ to generate PDFs and open your email app to send them.",
+    "tip": "Attach the PDFs from your downloads folder to the email.",
+    "learnMore": "The email app opens with a pre-filled subject and body.",
+    "elementId": "share-reports",
+    "order": 8,
+    "image": "img/tut_share-reports.png",
+    "imageAlt": "Share All Reports button"
+  },
+  {
+    "stepId": "save-progress",
+    "title": "Saving Progress",
+    "description": "Click ‘Save Progress’ to store your checklist answers for later.",
+    "tip": "Use this if you can’t finish the checklist in one go.",
+    "learnMore": "Progress is saved in local storage and tied to the checklist ID.",
+    "elementId": "save-progress",
+    "order": 9,
+    "image": "img/tut_save-progress.png",
+    "imageAlt": "Save Progress button"
+  },
+  {
+    "stepId": "load-progress",
+    "title": "Loading Progress",
+    "description": "Click ‘Load Progress’ to resume a saved checklist.",
+    "tip": "Make sure you’re on the same checklist you saved.",
+    "learnMore": "Only progress for the current checklist can be loaded.",
+    "elementId": "load-progress",
+    "order": 10,
+    "image": "img/tut_load-progress.png",
+    "imageAlt": "Load Progress button"
+  }
+  
+]

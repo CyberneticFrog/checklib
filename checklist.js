@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const checklistSelect = document.getElementById('checklist-select');
   const checklistTitle = document.getElementById('checklist-title');
   const checklistContainer = document.getElementById('checklist-container');
-  const shareReportsButton = document.getElementById('share-reports');
   const addToReportButton = document.getElementById('add-to-report');
   const reportItems = document.getElementById('report-items');
   const exportReportButton = document.getElementById('export-report');
@@ -34,6 +33,140 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   const splashScreen = document.querySelector('.splash-screen');
   const PDF_META_FIELDS = ['date', 'supervisor', 'cleaner', 'unit'];
+
+  // Tutorial Wizard Elements
+  const learnButton = document.getElementById('learn-button');
+  const tutorialModal = document.getElementById('tutorial-modal');
+  const tutorialTitle = document.getElementById('tutorial-title');
+  const tutorialDescription = document.getElementById('tutorial-description');
+  const tutorialTip = document.getElementById('tutorial-tip');
+  const tutorialLearnMore = document.getElementById('tutorial-learn-more');
+  const tutorialLearnMoreText = document.getElementById('tutorial-learn-more-text');
+  const tutorialImage = document.getElementById('tutorial-image');
+  const tutorialProgress = document.getElementById('tutorial-progress');
+  const tutorialBack = document.getElementById('tutorial-back');
+  const tutorialNext = document.getElementById('tutorial-next');
+  const tutorialJump = document.getElementById('tutorial-jump');
+  const tutorialSkip = document.getElementById('tutorial-skip');
+  const tutorialClose = document.getElementById('tutorial-close');
+
+  // Tutorial Wizard Variables
+  let tutorialSteps = [];
+  let currentStepIndex = 0;
+
+  // Load help.json at startup
+  async function loadTutorial() {
+    try {
+      const response = await fetch('/help.json');
+      if (!response.ok) throw new Error('Failed to load help.json');
+      tutorialSteps = await response.json();
+      tutorialSteps.sort((a, b) => a.order - b.order); // Sort by order
+    } catch (error) {
+      console.error('Error loading tutorial:', error);
+      tutorialSteps = []; // Fallback to empty array
+    }
+  }
+
+  // Show first-time prompt
+  function showFirstTimePrompt() {
+    if (!localStorage.getItem('hasSeenTutorialPrompt')) {
+      const prompt = document.createElement('div');
+      prompt.id = 'tutorial-prompt';
+      prompt.style.position = 'fixed';
+      prompt.style.top = '10%';
+      prompt.style.left = '50%';
+      prompt.style.transform = 'translateX(-50%)';
+      prompt.style.background = document.body.classList.contains('dark-theme') ? '#333' : '#FFF';
+      prompt.style.padding = '20px';
+      prompt.style.border = '1px solid #31849B';
+      prompt.style.zIndex = '1001';
+      prompt.innerHTML = `
+        <p>New to Check Lib? Click 'Learn' to start the tutorial!</p>
+        <button id="prompt-dismiss">Dismiss</button>
+      `;
+      document.body.appendChild(prompt);
+      document.getElementById('prompt-dismiss').addEventListener('click', () => {
+        localStorage.setItem('hasSeenTutorialPrompt', 'true');
+        prompt.remove();
+      });
+    }
+  }
+
+  // Display a tutorial step
+  function displayStep(index) {
+    if (index < 0 || index >= tutorialSteps.length || !tutorialSteps.length) return;
+    currentStepIndex = index;
+    localStorage.setItem('tutorialStep', index);
+
+    const step = tutorialSteps[index];
+    tutorialTitle.textContent = step.title;
+    tutorialDescription.textContent = step.description;
+    tutorialTip.textContent = step.tip ? `Tip: ${step.tip}` : '';
+    if (step.learnMore) {
+      tutorialLearnMore.style.display = 'block';
+      tutorialLearnMoreText.textContent = step.learnMore;
+    } else {
+      tutorialLearnMore.style.display = 'none';
+      tutorialLearnMoreText.textContent = '';
+      tutorialLearnMoreText.style.display = 'none';
+    }
+    if (step.image) {
+      tutorialImage.src = step.image;
+      tutorialImage.alt = step.imageAlt || '';
+      tutorialImage.style.display = 'block';
+    } else {
+      tutorialImage.src = '';
+      tutorialImage.alt = '';
+      tutorialImage.style.display = 'none';
+    }
+    tutorialProgress.textContent = `Step ${index + 1} of ${tutorialSteps.length}`;
+
+    // Highlight element
+    document.querySelectorAll('.pulse').forEach(el => el.classList.remove('pulse'));
+    if (step.elementId) {
+      const element = document.getElementById(step.elementId);
+      if (element) element.classList.add('pulse');
+    }
+
+    // Update navigation buttons
+    tutorialBack.disabled = index === 0;
+    tutorialNext.disabled = index === tutorialSteps.length - 1;
+  }
+
+  // Populate jump dropdown
+  function populateJumpDropdown() {
+    tutorialJump.innerHTML = '<option value="">Jump to Step</option>';
+    tutorialSteps.forEach((step, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = step.title;
+      tutorialJump.appendChild(option);
+    });
+  }
+
+  // Show tutorial modal
+  function showTutorial(startIndex = 0) {
+    if (!tutorialSteps.length) {
+      showToast('Help unavailable. Please contact support.', 4000);
+      return;
+    }
+    signatureModal.classList.add('hidden'); // Close signature modal
+    tutorialModal.style.display = 'block';
+    displayStep(startIndex);
+    populateJumpDropdown();
+  }
+
+  // Close tutorial modal
+  function closeTutorial() {
+    tutorialModal.style.display = 'none';
+    document.querySelectorAll('.pulse').forEach(el => el.classList.remove('pulse'));
+    if (currentStepIndex === tutorialSteps.length - 1) {
+      localStorage.setItem('hasSeenTutorial', 'true');
+    }
+  }
+
+  // Persisted storage
+  let reportData = JSON.parse(localStorage.getItem('reportData') || '[]');
 
   /**
    * Displays a temporary toast notification.
@@ -229,8 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('This check has been added to your report.');
       clearForm();
       renderReportList();
-    } else if (pendingAction === 'shareReports') {
-      shareAllReports(sigUrl);
     }
 
     pendingAction = null;
@@ -425,64 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (signaturePad) signaturePad.clear();
   }
 
-  function exportToPDF(signatureDataUrl) {
-    if (!window.jspdf) {
-      alert('PDF export unavailable');
-      return;
-    }
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    let y = 10;
-    const date = document.getElementById('checklist-date').value || 'N/A';
-    const supervisor = document.getElementById('supervisor').value || 'N/A';
-    const cleaner = document.getElementById('cleaner-team').value || 'N/A';
-    const unit = document.getElementById('unit-area').value || 'N/A';
-    const cid = checklistSelect.value;
-    const cTitle = checklistMetadata[cid]?.title || cid;
-
-    doc.setFontSize(16);
-    doc.text(`Checklist: ${cTitle}`, 10, y); y += 8;
-    doc.setFontSize(12);
-    doc.text(`Date: ${date}`, 10, y); y += 6;
-    doc.text(`Team Leader / Manager: ${supervisor}`, 10, y); y += 6;
-    doc.text(`Cleaner/Team: ${cleaner}`, 10, y); y += 6;
-    doc.text(`Unit: ${unit}`, 10, y); y += 10;
-
-    document.querySelectorAll('#checklist-container > *').forEach(el => {
-      if (el.tagName === 'H3') {
-        doc.setFontSize(14);
-        doc.text(el.textContent, 10, y); y += 7;
-      } else if (el.classList.contains('checklist-item')) {
-        const task = el.querySelector('.task-description').textContent;
-        const val = getRadioValue(el.querySelector('input[type=radio]').name);
-        const comment = el.querySelector('.comments-input').value.trim();
-        let line = `${task}: ${val === 'Y' ? 'Yes' : val === 'N' ? 'No' : 'N/A'}`;
-        if (comment) line += ` – ${comment}`;
-        const lines = doc.splitTextToSize(line, 180);
-        doc.setFontSize(10);
-        doc.text(lines, 12, y);
-        y += lines.length * 5 + 3;
-      }
-      if (y > 270) { doc.addPage(); y = 10; }
-    });
-
-    if (signatureDataUrl) {
-      if (y > 250) { doc.addPage(); y = 10; }
-      doc.text('Signature:', 10, y); y += 6;
-      doc.addImage(signatureDataUrl, 'PNG', 10, y, 50, 25);
-      y += 30;
-    }
-
-    doc.setFontSize(8);
-    doc.text('© 2025 Check Lib', 10, 290);
-
-    const safeId = cid.replace(/[^a-zA-Z0-9_-]/g, '_');
-    const safeDate = date.replace(/[^0-9]/g, '') || 'nodate';
-    doc.save(`${safeId}_${safeDate}.pdf`);
-  }
-
   function exportGroupedPDFs() {
-    console.log('exportGroupedPDFs() fired');
     if (!reportData.length) {
       alert('No reports to export. Click "Add to Report" first.');
       return;
@@ -514,10 +588,12 @@ document.addEventListener('DOMContentLoaded', () => {
     typeOrder.forEach(checklistId => {
       const { byInstance, instanceOrder } = groups[checklistId];
       const title = checklistMetadata[checklistId]?.title || checklistId;
+      const footerText = checklistMetadata[checklistId]?.footerText || '© 2025 Check Lib';
       const doc = new jsPDF();
       const width = doc.internal.pageSize.getWidth();
       const height = doc.internal.pageSize.getHeight();
 
+      // Table of Contents
       doc.setFillColor(49, 132, 155);
       doc.rect(0, 0, width, 12, 'F');
       doc.setTextColor('#FFF');
@@ -539,6 +615,9 @@ document.addEventListener('DOMContentLoaded', () => {
           y = 20;
         }
       });
+      // Add footer to Table of Contents page
+      doc.setFontSize(8);
+      doc.text(footerText, width / 2, 290, { align: 'center' });
 
       const estimatedPages = 1 + instanceOrder.length;
       if (estimatedPages > 20 && 
@@ -568,14 +647,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         py += 4;
 
+        // Column headers
+        doc.setFontSize(10);
+        doc.text('Section', 10, py);
+        doc.text('Task', 40, py);
+        doc.text('Value', 110, py);
+        doc.text('Comment', 120, py);
+        py += 6;
+
         byInstance[inst].forEach(row => {
-          const line = `${row.section} – ${row.task}: ${row.value}` +
-                       (row.comment ? ` (Comment: ${row.comment})` : '');
-          const wrap = doc.splitTextToSize(line, width - 20);
+          const sectionWrap = doc.splitTextToSize(row.section, 30); // 30mm width
+          const taskWrap = doc.splitTextToSize(row.task, 70); // 70mm width
+          const valueText = row.value || '';
+          const commentText = row.comment || '';
+          
+          // Calculate height for this row
+          const sectionHeight = sectionWrap.length * 5;
+          const taskHeight = taskWrap.length * 5;
+          const rowHeight = Math.max(sectionHeight, taskHeight, 5);
+          
+          if (py + rowHeight > height - 40) {
+            doc.addPage();
+            py = 20;
+            // Redraw headers on new page
+            doc.setFontSize(10);
+            doc.text('Section', 10, py);
+            doc.text('Task', 40, py);
+            doc.text('Value', 110, py);
+            doc.text('Comment', 120, py);
+            py += 6;
+          }
+
+          // Render columns
           doc.setFontSize(10);
-          doc.text(wrap, 10, py);
-          py += wrap.length * 5;
-          if (py > height - 40) { doc.addPage(); py = 20; }
+          doc.text(sectionWrap, 10, py);
+          doc.text(taskWrap, 40, py);
+          doc.text(valueText, 110, py);
+          if (commentText) {
+            const commentWrap = doc.splitTextToSize(commentText, 60); // 60mm width
+            doc.text(commentWrap, 120, py);
+          }
+          py += rowHeight + 1; // 1mm extra spacing
         });
 
         if (byInstance[inst][0].signatureDataUrl) {
@@ -587,6 +699,9 @@ document.addEventListener('DOMContentLoaded', () => {
             );
           }
         }
+        // Add footer to report page
+        doc.setFontSize(8);
+        doc.text(footerText, width / 2, 290, { align: 'center' });
       });
 
       const now = new Date();
@@ -595,7 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function shareAllReports(signatureDataUrl) {
+  function shareAllReports() {
     if (!reportData.length) {
       showToast('No reports to share. Click "Add to Report" first.', 4000);
       return;
@@ -627,10 +742,12 @@ document.addEventListener('DOMContentLoaded', () => {
     typeOrder.forEach(checklistId => {
       const { byInstance, instanceOrder } = groups[checklistId];
       const title = checklistMetadata[checklistId]?.title || checklistId;
+      const footerText = checklistMetadata[checklistId]?.footerText || '© 2025 Check Lib';
       const doc = new jsPDF();
       const width = doc.internal.pageSize.getWidth();
       const height = doc.internal.pageSize.getHeight();
 
+      // Table of Contents
       doc.setFillColor(49, 132, 155);
       doc.rect(0, 0, width, 12, 'F');
       doc.setTextColor('#FFF');
@@ -652,6 +769,9 @@ document.addEventListener('DOMContentLoaded', () => {
           y = 20;
         }
       });
+      // Add footer to Table of Contents page
+      doc.setFontSize(8);
+      doc.text(footerText, width / 2, 290, { align: 'center' });
 
       instanceOrder.forEach((inst, idx) => {
         doc.addPage();
@@ -674,22 +794,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         py += 4;
 
+        // Column headers
+        doc.setFontSize(10);
+        doc.text('Section', 10, py);
+        doc.text('Task', 40, py);
+        doc.text('Value', 110, py);
+        doc.text('Comment', 120, py);
+        py += 6;
+
         byInstance[inst].forEach(row => {
-          const line = `${row.section} – ${row.task}: ${row.value}` +
-                       (row.comment ? ` (Comment: ${row.comment})` : '');
-          const wrap = doc.splitTextToSize(line, width - 20);
+          const sectionWrap = doc.splitTextToSize(row.section, 30); // 30mm width
+          const taskWrap = doc.splitTextToSize(row.task, 70); // 70mm width
+          const valueText = row.value || '';
+          const commentText = row.comment || '';
+          
+          // Calculate height for this row
+          const sectionHeight = sectionWrap.length * 5;
+          const taskHeight = taskWrap.length * 5;
+          const rowHeight = Math.max(sectionHeight, taskHeight, 5);
+          
+          if (py + rowHeight > height - 40) {
+            doc.addPage();
+            py = 20;
+            // Redraw headers on new page
+            doc.setFontSize(10);
+            doc.text('Section', 10, py);
+            doc.text('Task', 40, py);
+            doc.text('Value', 110, py);
+            doc.text('Comment', 120, py);
+            py += 6;
+          }
+
+          // Render columns
           doc.setFontSize(10);
-          doc.text(wrap, 10, py);
-          py += wrap.length * 5;
-          if (py > height - 40) { doc.addPage(); py = 20; }
+          doc.text(sectionWrap, 10, py);
+          doc.text(taskWrap, 40, py);
+          doc.text(valueText, 110, py);
+          if (commentText) {
+            const commentWrap = doc.splitTextToSize(commentText, 60); // 60mm width
+            doc.text(commentWrap, 120, py);
+          }
+          py += rowHeight + 1; // 1mm extra spacing
         });
 
-        if (signatureDataUrl) {
+        if (byInstance[inst][0].signatureDataUrl) {
           const sigY = py + 10;
           if (sigY < height - 60) {
-            doc.addImage(signatureDataUrl, 'PNG', 10, sigY, 50, 25);
+            doc.addImage(
+              byInstance[inst][0].signatureDataUrl, 
+              'PNG', 10, sigY, 50, 25
+            );
           }
         }
+        // Add footer to report page
+        doc.setFontSize(8);
+        doc.text(footerText, width / 2, 290, { align: 'center' });
       });
 
       const pdfDataUrl = doc.output('datauristring');
@@ -705,10 +864,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const emailSubject = encodeURIComponent('Check Lib Reports');
-    const emailBody = encodeURIComponent('Attached are the generated checklist reports.');
-    let mailtoLink = `mailto:?subject=${emailSubject}&body=${emailBody}`;
-    showToast('PDFs generated. Please manually attach them from your downloads folder.', 5000);
-    window.location.href = mailtoLink;
+    const emailBody = encodeURIComponent('Attached are the generated checklist reports. Please attach the PDFs from your downloads folder.');
+    const mailtoLink = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+    try {
+      window.location.href = mailtoLink;
+      showToast('Email client opened. Please manually attach PDFs from your downloads folder.', 5000);
+    } catch (e) {
+      console.error('Failed to open email client:', e);
+      showToast('Could not open email client. PDFs saved to downloads folder.', 5000);
+    }
   }
 
   function clearForm() {
@@ -730,7 +894,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     updateProgressBar();
-    document.getElementById('report-count').textContent = '0';
     showToast('Form cleared.');
   }
 
@@ -788,40 +951,14 @@ document.addEventListener('DOMContentLoaded', () => {
     alert('Progress loaded successfully!');
   }
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register('service-worker.js', { scope: './' })
-      .then(reg => {
-        console.log('Service Worker registered successfully.');
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              if (confirm('New version available—click OK to update.')) {
-                newWorker.postMessage({ action: 'skipWaiting' });
-              }
-            }
-          });
-        });
-      })
-      .catch(err => console.error('SW registration failed:', err));
-
-    checkUpdateButton.addEventListener('click', () =>
-      navigator.serviceWorker.getRegistration().then(reg => reg && reg.update())
-    );
-
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      saveProgress();
-      window.location.reload();
-    });
-  }
-
   async function loadChecklistMetadata() {
     try {
       const res = await fetch(`checklists.json`);
       if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
-      checklistMetadata = data.reduce((o, i) => (o[i.id] = { title: i.title }, o), {});
+      checklistMetadata = data.reduce((o, i) => (
+        o[i.id] = { title: i.title, footerText: i.footerText }, o
+      ), {});
       checklistSelect.innerHTML = data.map(i => `<option value="${i.id}">${i.title}</option>`).join('');
       const last = localStorage.getItem('lastChecklistId');
       checklistSelect.value = last && checklistMetadata[last] ? last : data[0].id;
@@ -832,6 +969,40 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Could not load available checklists.');
     }
   }
+
+  // Initialize tutorial
+  loadTutorial().then(() => {
+    showFirstTimePrompt();
+    const savedStep = localStorage.getItem('tutorialStep');
+    if (savedStep && !localStorage.getItem('hasSeenTutorial')) {
+      currentStepIndex = parseInt(savedStep, 10);
+    }
+  });
+
+  learnButton.addEventListener('click', () => {
+    showTutorial(currentStepIndex);
+  });
+
+  tutorialBack.addEventListener('click', () => {
+    if (currentStepIndex > 0) displayStep(currentStepIndex - 1);
+  });
+
+  tutorialNext.addEventListener('click', () => {
+    if (currentStepIndex < tutorialSteps.length - 1) displayStep(currentStepIndex + 1);
+  });
+
+  tutorialSkip.addEventListener('click', closeTutorial);
+  tutorialClose.addEventListener('click', closeTutorial);
+
+  tutorialJump.addEventListener('change', (e) => {
+    const index = parseInt(e.target.value, 10);
+    if (!isNaN(index)) displayStep(index);
+  });
+
+  tutorialLearnMore.addEventListener('click', () => {
+    tutorialLearnMoreText.style.display = tutorialLearnMoreText.style.display === 'none' ? 'block' : 'none';
+  });
+
   loadChecklistMetadata();
 
   checklistSelect.addEventListener('change', () => {
@@ -848,8 +1019,11 @@ document.addEventListener('DOMContentLoaded', () => {
   saveProgressButton.addEventListener('click', saveProgress);
   loadProgressButton.addEventListener('click', loadProgress);
   document.getElementById('share-reports').addEventListener('click', () => {
-    pendingAction = 'shareReports';
-    openSignatureModal();
+    if (!reportData.length) {
+      showToast('No reports to share. Click "Add to Report" first.', 4000);
+      return;
+    }
+    shareAllReports();
   });
   clearSignatureButton.addEventListener('click', () => {
     if (signaturePad) {
@@ -875,5 +1049,5 @@ window.addEventListener('load', () => {
     if (splash) splash.remove();
     const app = document.getElementById('app');
     if (app) app.style.visibility = 'visible';
-  }, 2000);
+  }, 1800);
 });

@@ -35,6 +35,7 @@
             <span class="main-title">CHECK LIBRARY</span>
             <span class="sub-title" id="checklist-title">Checklist B</span>
             <button id="install-app" hidden>Install App</button>
+            <button id="learn-button" aria-label="Open tutorial wizard">Learn</button>
           </div>
         </header>
       </div>
@@ -118,6 +119,31 @@
             <button id="cancel-signature">Cancel</button>
           </div>
         </div>
+      </div>
+    </div>
+
+      <!-- TUTORIAL MODAL -->
+    <div id="tutorial-modal" class="modal" role="dialog" aria-label="Check Lib Tutorial">
+      <div class="modal-content">
+        <h2>Check Lib Tutorial</h2>
+        <div id="tutorial-content">
+          <h3 id="tutorial-title"></h3>
+          <p id="tutorial-description"></p>
+          <p id="tutorial-tip" class="tip"></p>
+          <button id="tutorial-learn-more" aria-label="Show more technical details" style="display: none;">Learn More</button>
+          <p id="tutorial-learn-more-text" style="display: none;"></p>
+          <img id="tutorial-image" src="" alt="" style="max-width: 100%; height: auto; margin: 10px auto; display: none;">
+          <p id="tutorial-progress"></p>
+        </div>
+        <div class="modal-actions">
+          <button id="tutorial-back">Back</button>
+          <button id="tutorial-next">Next</button>
+          <select id="tutorial-jump" aria-label="Jump to specific tutorial step">
+            <option value="">Jump to Step</option>
+          </select>
+          <button id="tutorial-skip">Skip</button>
+        </div>
+        <p class="modal-close"><a href="#" id="tutorial-close">Close Tutorial</a></p>
       </div>
     </div>
 
