@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load help.json at startup
   async function loadTutorial() {
     try {
-      const response = await fetch('/help.json');
+      const response = await fetch('help.json');
       if (!response.ok) throw new Error('Failed to load help.json');
       tutorialSteps = await response.json();
       tutorialSteps.sort((a, b) => a.order - b.order); // Sort by order
