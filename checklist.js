@@ -141,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
     signatureModal.classList.add('hidden'); // Close signature modal
     tutorialModal.style.display = 'block';
     displayStep(startIndex);
-    populateJumpDropdown();
   }
 
   // Close tutorial modal
@@ -981,10 +980,6 @@ document.addEventListener('DOMContentLoaded', () => {
   tutorialSkip.addEventListener('click', closeTutorial);
   tutorialClose.addEventListener('click', closeTutorial);
 
-  tutorialJump.addEventListener('change', (e) => {
-    const index = parseInt(e.target.value, 10);
-    if (!isNaN(index)) displayStep(index);
-  });
 
   tutorialLearnMore.addEventListener('click', () => {
     tutorialLearnMoreText.style.display = tutorialLearnMoreText.style.display === 'none' ? 'block' : 'none';
