@@ -970,13 +970,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Initialize tutorial
-  loadTutorial().then(() => {
-    showFirstTimePrompt();
-    const savedStep = localStorage.getItem('tutorialStep');
-    if (savedStep && !localStorage.getItem('hasSeenTutorial')) {
-      currentStepIndex = parseInt(savedStep, 10);
-    }
-  });
+  loadTutorial();
+  showFirstTimePrompt();
+  const savedStep = localStorage.getItem('tutorialStep');
+  if (savedStep && !localStorage.getItem('hasSeenTutorial')) {
+    currentStepIndex = parseInt(savedStep, 10);
+  }
 
   learnButton.addEventListener('click', () => {
     showTutorial(currentStepIndex);
