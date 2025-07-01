@@ -1,4 +1,4 @@
-import { tutorialSteps } from './help.js';
+import { tutorialSteps } from '.help.js';
 
 // checklist.js
 
