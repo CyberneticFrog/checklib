@@ -1,0 +1,853 @@
+/* =======================
+   1. THEME VARIABLES
+   ======================= */
+:root {
+  /* Layout & Containers */
+  --bg-page:        #1f5361;
+  --bg-container:   #E6F0FA; /* Updated: Lighter, more cohesive with teal theme */
+  --bg-modal:       #E6F0FA; /* Updated: Matches --bg-container */
+  --overlay-bg:     rgba(0, 0, 0, 0.5);
+  --splash-bg:      #31849B;
+
+  /* Typography */
+  --text-primary:   #13343e;
+  --text-heading:   #69c8d3; /* Updated: Matches --accent for consistency */
+  --text-inverse:   #FFFFFF;
+  --footer-text:    #69c8d3; /* Updated: Matches --text-heading */
+
+  /* Borders & Inputs */
+  --border-color:   #31849B;
+  --input-bg:       #FFFFFF;
+
+  /* Components */
+  --item-bg:        #F9F9F9;
+  --item-border:    #e0e0e0;
+
+  /* Buttons */
+  --btn-bg:         #31849B;
+  --btn-hover-bg:   #0CE2F8;
+  --btn-hover-text: #13343e; /* Updated: Matches --text-primary for contrast */
+  --btn-error-bg:   #b93030; /* Added: For error buttons like clear-form */
+
+  /* Status Colors */
+  --success:        #28A745;
+  --warning:        #FFC107;
+  --error:          #b93030;
+  --info:           #FFDE59;
+  --accent:         #69c8d3; /* Updated: Softer teal for headings, footer */
+
+  /* Progress Bar */
+  --progress-bg:      #E0E0E0;
+  --progress-bar-bg:  #03292e;
+
+  /* Offline Message */
+  --offline-bg:     #b93030; /* Updated: Matches --error */
+  --offline-text:   #FFFFFF;
+
+  /* Form Actions */
+  --form-actions-bg:    #31849B; /* Updated: Matches --btn-bg */
+  --form-actions-text:  #FFFFFF;
+
+  /* Reporting */
+  --reporting-bg:       #31849B; /* Updated: Matches --btn-bg */
+  --reporting-text:     #FFFFFF;
+}
+
+/* Dark theme overrides */
+.dark-theme {
+  --bg-page:        #071215;
+  --bg-container:   #1C2526; /* Updated: Darker, more cohesive */
+  --bg-modal:       #1C2526; /* Updated: Matches --bg-container */
+  --overlay-bg:     rgba(0, 0, 0, 0.7);
+  --splash-bg:      #31849B; /* Kept: Matches light theme for branding */
+
+  --text-primary:   #F5F5F5;
+  --text-heading:   #69c8d3;
+  --text-inverse:   #FFFFFF;
+  --footer-text:    #69c8d3;
+
+  --border-color:   #0CE2F8;
+  --input-bg:       #2C3E50; /* Updated: Matches --bg-container */
+
+  --item-bg:        #2C3E50;
+  --item-border:    #0CE2F8;
+
+  --btn-bg:         #31849B; /* Updated: Consistent with light theme */
+  --btn-hover-bg:   #0CE2F8;
+  --btn-hover-text: #F5F5F5;
+  --btn-error-bg:   #b93030;
+
+  --success:        #28A745;
+  --warning:        #FFC107;
+  --error:          #b93030;
+  --info:           #FFDE59;
+  --accent:         #69c8d3;
+
+  --progress-bg:      #2C3E50;
+  --progress-bar-bg:  #111d29;
+
+  --offline-bg:     #b93030;
+  --offline-text:   #F5F5F5;
+}
+
+/* Logo swapping for light vs. dark mode */
+.light-logo { display: block; }
+.dark-logo { display: none; }
+body.dark-theme .light-logo { display: none; }
+body.dark-theme .dark-logo { display: block; }
+
+/* =======================
+   2. RESET & BASE STYLES
+   ======================= */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-page);
+  padding: 5px 5px 0;
+  line-height: 1.5;
+  color: var(--text-primary); /* Updated: Uses --text-primary */
+}
+
+/* =======================
+   3. CONTAINER & TOGGLE
+   ======================= */
+.container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  background-color: var(--bg-container);
+  border-radius: 30px;
+  box-shadow:
+    inset 0 6px 5px rgba(0, 0, 0, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  width: auto !important;
+  min-width: unset !important;
+  box-sizing: content-box;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  background: var(--btn-bg);
+  color: var(--text-inverse);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* =======================
+   4. HEADER
+   ======================= */
+.header-container,
+.app-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.header-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 14px auto;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.header-title .main-title {
+  margin-top: 0.25rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--text-heading);
+  letter-spacing: 2px;
+  line-height: 1.05;
+  margin-bottom: 2px;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.header-title #install-app {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--btn-bg); /* Updated: Uses variable */
+  color: var(--text-inverse);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header-title #install-app:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+.header-title .sub-title {
+  font-size: 1.0rem;
+  font-weight: bold;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+}
+
+#form-heading {
+  color: var(--text-heading); /* Updated: Matches headings */
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* =======================
+   5. PROGRESS BAR
+   ======================= */
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--progress-bar-bg);
+  padding: 5px 10px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar {
+  width: 45%;
+  max-width: 400px;
+  height: 20px;
+  background: var(--progress-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--progress-width, 0%);
+  height: 100%;
+  transition: width 0.3s ease;
+  background: var(--accent);
+}
+
+.progress-bar.red::before { background: var(--error); }
+.progress-bar.amber::before { background: var(--warning); }
+.progress-bar.green::before { background: var(--success); }
+
+.progress-text {
+  margin-left: 10px;
+  font-size: 0.95rem;
+  color: var(--info);
+}
+
+/* =======================
+   6. FORMS & INPUTS
+   ======================= */
+.input-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: var(--text-heading);
+  margin-bottom: 0.5rem;
+}
+
+.input,
+.select,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus,
+.select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 5px rgba(105, 200, 211, 0.5); /* Updated: Matches --accent */
+}
+
+/* =======================
+   7. CHECKLIST ITEMS
+   ======================= */
+.checklist-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid var(--item-border);
+  border-radius: 8px;
+  background-color: var(--item-bg);
+}
+
+.task-description {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  color: var(--text-heading);
+}
+
+.radio-group input[type='radio'] {
+  margin-right: 5px;
+}
+
+/* =======================
+   8. COMMENTS
+   ======================= */
+.comments-container {
+  margin-top: 10px;
+}
+
+.comments-input {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.comments-input:disabled {
+  background-color: #909499;
+  cursor: not-allowed;
+}
+
+.add-comment {
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.add-comment:hover,
+.add-comment:focus {
+  background-color: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+.comment-required {
+  display: block;
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 3px;
+}
+
+.comment-required.hidden {
+  display: none;
+}
+
+/* =======================
+   9. BUTTONS & FIELDSETS
+   ======================= */
+button {
+  padding: 0.5rem 1rem; /* Updated: Consistent with form-actions */
+  margin: 0.5rem; /* Updated: Standardized */
+  border: none;
+  border-radius: 4px;
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  background-color: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+#export-report, #export-pdf {
+  background-color: var(--btn-bg); /* Updated: Matches other buttons */
+}
+
+#export-report:hover, #export-pdf:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+#clear-form, #clear-reports {
+  background-color: var(--btn-error-bg); /* Updated: Uses error variable */
+}
+
+#clear-form:hover, #clear-reports:hover {
+  background-color: #790000; /* Updated: Darker error shade */
+  color: var(--text-inverse);
+}
+
+#check-all-yes {
+  background-color: var(--btn-bg);
+}
+
+#check-all-yes:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+#load-progress, #save-progress {
+  background-color: var(--btn-bg); /* Updated: Matches other buttons */
+}
+
+#load-progress:hover, #save-progress:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+#check-update {
+  background-color: var(--warning); /* Updated: Uses warning for consistency */
+}
+
+#check-update:hover {
+  background-color: #D4A017; /* Updated: Darker warning shade */
+  color: var(--text-inverse);
+}
+
+#report-status {
+  margin: 1rem 0;
+  font-weight: bold;
+  font-size: 1.0rem;
+  color: var(--text-heading);
+  text-align: center;
+  width: 100%;
+}
+
+fieldset {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+legend {
+  font-weight: bold;
+  color: var(--text-heading);
+  padding: 0 0.5rem;
+  margin-left: 0.5rem;
+}
+
+/* Form Actions */
+#form-actions legend { color: var(--text-heading); } /* Updated: Matches headings */
+#form-actions button {
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 1rem;
+  margin: 0.5rem; /* Updated: Consistent */
+}
+
+#form-actions button:hover { background-color: var(--btn-hover-bg); }
+
+/* Reporting */
+#reporting legend { color: var(--text-heading); }
+#reporting button {
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+}
+
+#reporting button:hover { background-color: var(--btn-hover-bg); }
+
+/* Progress & Updates */
+#progress-updates legend { color: var(--text-heading); }
+#progress-updates button {
+  background-color: var(--btn-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+}
+
+#progress-updates button:hover { background-color: var(--btn-hover-bg); }
+
+/* =======================
+   10. MODAL & SIGNATURE PAD
+   ======================= */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+  background-color: var(--bg-modal);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.signature-pad {
+  width: 100%;
+  height: 200px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  margin-bottom: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px; /* Updated: Matches tutorial-modal */
+}
+
+/* Style for Learn button to match Install App */
+#learn-button {
+  background: var(--btn-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 1rem; /* Updated: Consistent */
+  border: none;
+  font-size: 1rem; /* Updated: Matches buttons */
+  cursor: pointer;
+  margin: 0.5rem; /* Updated: Matches header buttons */
+}
+
+#learn-button:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+/* Modal styles to match #signature-modal */
+#tutorial-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay-bg);
+  z-index: 1000;
+}
+
+#tutorial-modal .modal-content {
+  background: var(--bg-modal);
+  margin: 5% auto;
+  padding: 20px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+}
+
+#tutorial-modal h2 {
+  color: var(--text-heading);
+  font-size: 16px;
+  text-align: center;
+}
+
+#tutorial-modal h3 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#tutorial-modal p {
+  font-size: 12px;
+}
+
+#tutorial-modal .tip {
+  font-style: italic;
+  font-size: 11px;
+}
+
+/* Center the “Learn More” button inside the modal */
+#tutorial-modal #tutorial-learn-more {
+  font-size: 12px;
+  color: var(--text-heading);
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  /* ensure it doesn’t stretch full-width */
+  display: inline-block !important;
+  /* auto-center within the parent’s text-align or block context */
+  margin: 0.5rem auto;
+}
+
+#tutorial-modal .modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+#tutorial-modal .modal-actions button, #tutorial-modal .modal-actions select {
+  background: var(--btn-bg);
+  color: var(--text-inverse);
+  padding: 0.5rem 1rem; /* Updated: Consistent */
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  flex: 1;
+}
+
+#tutorial-modal .modal-actions button:hover, #tutorial-modal .modal-actions select:hover {
+  background: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+
+#tutorial-modal .modal-close {
+  text-align: center;
+  font-size: 11px;
+}
+
+#tutorial-modal .modal-close a {
+  color: var(--text-heading);
+  text-decoration: none;
+}
+
+/* Pulse effect for highlighting elements */
+@keyframes pulse {
+  0% { border-color: var(--border-color); }
+  50% { border-color: var(--text-inverse); }
+}
+.pulse {
+  border: 2px solid var(--border-color);
+  animation: pulse 1s infinite;
+}
+
+/* =======================
+   11. ERROR STYLES
+   ======================= */
+.error-message {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.error-message.hidden { display: none; }
+
+.error-highlight {
+  border-color: var(--error);
+  box-shadow: 0 0 5px rgba(185, 48, 48, 0.5); /* Updated: Matches --error */
+}
+
+/* =======================
+   12. OFFLINE MESSAGE
+   ======================= */
+#offline-message {
+  background-color: var(--offline-bg);
+  color: var(--offline-text);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+#offline-message.hidden { display: none; }
+
+/* =======================
+   13. SPLASH SCREEN
+   ======================= */
+#splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--splash-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+#splash-screen img { max-width: 80%; }
+
+#app { visibility: hidden; }
+
+.splash-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#app {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#app[style*="visibility: visible"] {
+  opacity: 1;
+}
+
+/* =======================
+   14. REPORT LIST
+   ======================= */
+#report-list {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: var(--bg-container);
+}
+
+#report-list h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--text-heading);
+}
+
+#report-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#report-items li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--item-border);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+#report-items li:last-child { border-bottom: none; }
+
+.report-meta {
+  flex: 1;
+  line-height: 1.3;
+}
+
+.report-date,
+.report-supervisor,
+.report-unit {
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-weight: normal;
+}
+
+.delete-report {
+  background-color: var(--btn-error-bg);
+  color: var(--text-inverse);
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: 1rem;
+}
+
+.delete-report:hover {
+  background-color: #790000;
+  color: var(--text-inverse);
+}
+
+/* =======================
+   15. FOOTER
+   ======================= */
+.footer-logo {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  margin: 10px auto 2px;
+  display: block;
+  object-fit: cover;
+}
+
+.footer-text {
+  color: var(--footer-text);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 5px 0;
+}
+
+/* =======================
+   16. RESPONSIVE DESIGN
+   ======================= */
+@media (max-width: 600px) {
+  .container { padding: 1rem; }
+  .app-header { flex-direction: column; text-align: center; }
+  .header-logo { margin: 14px auto 10px; }
+  .progress-bar { width: 70%; }
+  button { width: 100%; margin: 0.5rem 0; } /* Updated: Consistent margin */
+  .theme-toggle, .delete-report, #install-app, #learn-button {
+    width: auto !important;
+    margin: 0.5rem; /* Updated: Consistent */
+  }
+  #install-app {
+    display: block; /* Simplified: No absolute positioning */
+  }
+}
+
+/* Toast container */
+#toast-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.toast {
+  min-width: 200px;
+  background-color: var(--bg-modal);
+  color: var(--text-inverse);
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: auto;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
