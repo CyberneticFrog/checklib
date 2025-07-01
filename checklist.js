@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tutorialClose = document.getElementById('tutorial-close');
 
   // Tutorial Wizard Variables
-  let tutorialSteps = [];
+  // (we use the imported tutorialSteps array instead of shadowing it)
   let currentStepIndex = 0;
 
   function loadTutorial() {
@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
       tutorialSteps.sort((a, b) => a.order - b.order); // Sort by order
     } catch (error) {
       console.error('Error loading tutorial:', error);
-      tutorialSteps = []; // Fallback to empty array
     }
   }
 
