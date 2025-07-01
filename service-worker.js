@@ -1,8 +1,9 @@
-const CACHE_NAME = 'check-lib-cache-v8.0.0';
+const CACHE_NAME = 'check-lib-cache-v8.0.1';
 const ASSETS_TO_CACHE = [
     `index.html`,
     `style.css`,
     `checklist.js`,
+    `help.js`,
     `cyber1.png`,
     `splash.png`,
     `manifest.json`,

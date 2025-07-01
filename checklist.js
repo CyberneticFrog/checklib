@@ -54,12 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let tutorialSteps = [];
   let currentStepIndex = 0;
 
-  // Load help.json at startup
-  async function loadTutorial() {
+  function loadTutorial() {
     try {
-      const response = await fetch('help.json');
-      if (!response.ok) throw new Error('Failed to load help.json');
-      tutorialSteps = await response.json();
+      if (!tutorialSteps || !Array.isArray(tutorialSteps)) {
+        throw new Error('Tutorial steps not available');
+      }
       tutorialSteps.sort((a, b) => a.order - b.order); // Sort by order
     } catch (error) {
       console.error('Error loading tutorial:', error);
