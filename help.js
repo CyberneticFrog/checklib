@@ -1,4 +1,4 @@
-const tutorialSteps = [
+export const tutorialSteps = [
   {
     "stepId": "theme-toggle",
     "title": "Switching Themes",

@@ -1,3 +1,5 @@
+import { tutorialSteps } from './help.js';
+
 // checklist.js
 
 // Persisted storage
