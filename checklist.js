@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const tutorialProgress = document.getElementById('tutorial-progress');
   const tutorialBack = document.getElementById('tutorial-back');
   const tutorialNext = document.getElementById('tutorial-next');
-  const tutorialJump = document.getElementById('tutorial-jump');
   const tutorialSkip = document.getElementById('tutorial-skip');
   const tutorialClose = document.getElementById('tutorial-close');
 
@@ -131,17 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update navigation buttons
     tutorialBack.disabled = index === 0;
     tutorialNext.disabled = index === tutorialSteps.length - 1;
-  }
-
-  // Populate jump dropdown
-  function populateJumpDropdown() {
-    tutorialJump.innerHTML = '<option value="">Jump to Step</option>';
-    tutorialSteps.forEach((step, index) => {
-      const option = document.createElement('option');
-      option.value = index;
-      option.textContent = step.title;
-      tutorialJump.appendChild(option);
-    });
   }
 
   // Show tutorial modal
