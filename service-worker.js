@@ -1,4 +1,4 @@
-const CACHE_NAME = 'check-lib-cache-v8.0.3';
+const CACHE_NAME = 'check-lib-cache-v8.0.4';
 const ASSETS_TO_CACHE = [
     `index.html`,
     `style.css`,
@@ -9,6 +9,7 @@ const ASSETS_TO_CACHE = [
     `manifest.json`,
     `checks/checklist_b.csv`,
     `checks/checklist_25.csv`,
+    `checks/checklist_hadc.csv`,
     `checklists.json`,
     'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
     'https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js',
