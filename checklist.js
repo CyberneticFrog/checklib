@@ -780,13 +780,21 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.setFontSize(11);
         let py = 20;
         const meta = byInstance[inst][0];
-        PDF_META_FIELDS.forEach(field => {
-          doc.text(
-            `${field.charAt(0).toUpperCase() + field.slice(1)}: ${meta[field]}`,
-            10, py
-          );
-          py += 6;
-        });
+		PDF_META_FIELDS.forEach(field => {
+		  let label = field;
+
+		  if (field === 'cleaner') {
+			label = 'Team member';
+		  } else {
+			label = field.charAt(0).toUpperCase() + field.slice(1);
+		  }
+
+		  doc.text(
+			`${label}: ${meta[field]}`,
+			10, py
+		  );
+		  py += 6;
+		});
         py += 4;
 
         // Column headers
