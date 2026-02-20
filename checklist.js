@@ -871,7 +871,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function clearForm() {
-    checklistSelect.value = '';
+    // keep current checklist selection
+	// checklistSelect.value = '';
     document.getElementById('checklist-date').value = '';
     document.getElementById('supervisor').value = '';
     document.getElementById('cleaner-team').value = '';
