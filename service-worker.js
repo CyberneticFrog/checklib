@@ -1,4 +1,4 @@
-const CACHE_NAME = 'check-lib-cache-v9.0.2';
+const CACHE_NAME = 'check-lib-cache-v9.0.3';
 const ASSETS_TO_CACHE = [
     `index.html`,
     `style.css`,

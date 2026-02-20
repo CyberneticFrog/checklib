@@ -35,6 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('theme-toggle');
   const splashScreen = document.querySelector('.splash-screen');
   const PDF_META_FIELDS = ['date', 'supervisor', 'cleaner', 'unit'];
+  const PDF_LABELS = {
+  date: 'Date',
+  supervisor: 'Supervisor',
+  cleaner: 'Team member',
+  unit: 'Unit'
+};
 
   // Tutorial Wizard Elements
   const learnButton = document.getElementById('learn-button');
@@ -626,14 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let py = 20;
         const meta = byInstance[inst][0];
 		PDF_META_FIELDS.forEach(field => {
-		  let label = field;
-
-		  if (field === 'cleaner') {
-			label = 'Team member';
-		  } else {
-			label = field.charAt(0).toUpperCase() + field.slice(1);
-		  }
-
+		  const label = PDF_LABELS[field] || field;
 		  doc.text(
 			`${label}: ${meta[field]}`,
 			10, py
@@ -781,14 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let py = 20;
         const meta = byInstance[inst][0];
 		PDF_META_FIELDS.forEach(field => {
-		  let label = field;
-
-		  if (field === 'cleaner') {
-			label = 'Team member';
-		  } else {
-			label = field.charAt(0).toUpperCase() + field.slice(1);
-		  }
-
+		  const label = PDF_LABELS[field] || field;
 		  doc.text(
 			`${label}: ${meta[field]}`,
 			10, py
