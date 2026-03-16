@@ -1009,6 +1009,30 @@ document.addEventListener('DOMContentLoaded', () => {
   clearFormButton.addEventListener('click', clearForm);
   saveProgressButton.addEventListener('click', saveProgress);
   loadProgressButton.addEventListener('click', loadProgress);
+
+  checkUpdateButton.addEventListener('click', async () => {
+    if (!('serviceWorker' in navigator)) {
+      showToast('Service workers are not supported on this device.', 4000);
+      return;
+    }
+
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (!reg) {
+      showToast('No service worker registration found.', 4000);
+      return;
+    }
+
+    await reg.update();
+
+    if (reg.waiting) {
+      showToast('Applying update...', 3000);
+      reg.waiting.postMessage({ action: 'skipWaiting' });
+      return;
+    }
+
+    showToast('No new update found.', 3000);
+  });
+
   document.getElementById('share-reports').addEventListener('click', () => {
     if (!reportData.length) {
       showToast('No reports to share. Click "Add to Report" first.', 4000);
@@ -1032,6 +1056,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   window.addEventListener('resize', resizeCanvas);
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').then(reg => {
+      if (reg.waiting) {
+        reg.waiting.postMessage({ action: 'skipWaiting' });
+      }
+
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            showToast('App update found. Updating now...');
+            newWorker.postMessage({ action: 'skipWaiting' });
+          }
+        });
+      });
+    }).catch(err => {
+      console.error('Service worker registration failed:', err);
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (window.__swReloading) return;
+      window.__swReloading = true;
+      window.location.reload();
+    });
+  }
 });
 
 window.addEventListener('load', () => {
