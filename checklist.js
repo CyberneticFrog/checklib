@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveProgressButton = document.getElementById('save-progress');
   const loadProgressButton = document.getElementById('load-progress');
   const checkUpdateButton = document.getElementById('check-update');
+  const updateBanner = document.getElementById('update-banner');
+  const updateNowButton = document.getElementById('update-now');
+  const updateLaterButton = document.getElementById('update-later');
   const progressBar = document.getElementById('progress-bar');
   const signatureModal = document.getElementById('signature-modal');
   const signaturePadCanvas = document.getElementById('signature-pad');
@@ -209,6 +212,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   let isDirty = false;
+  let swRegistration = null;
+
+  function showUpdateBanner() {
+    if (updateBanner) updateBanner.classList.remove('hidden');
+  }
+
+  function hideUpdateBanner() {
+    if (updateBanner) updateBanner.classList.add('hidden');
+  }
 
   if (!checklistForm || !checklistSelect || !checklistContainer) {
     console.error('Missing critical DOM elements');
@@ -1010,6 +1022,23 @@ document.addEventListener('DOMContentLoaded', () => {
   saveProgressButton.addEventListener('click', saveProgress);
   loadProgressButton.addEventListener('click', loadProgress);
 
+  if (updateNowButton) {
+    updateNowButton.addEventListener('click', () => {
+      if (swRegistration && swRegistration.waiting) {
+        hideUpdateBanner();
+        showToast('Applying update...', 3000);
+        swRegistration.waiting.postMessage({ action: 'skipWaiting' });
+      }
+    });
+  }
+
+  if (updateLaterButton) {
+    updateLaterButton.addEventListener('click', () => {
+      hideUpdateBanner();
+      showToast('Update postponed until next refresh or app open.', 3000);
+    });
+  }
+
   checkUpdateButton.addEventListener('click', async () => {
     if (!('serviceWorker' in navigator)) {
       showToast('Service workers are not supported on this device.', 4000);
@@ -1022,11 +1051,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    swRegistration = reg;
     await reg.update();
 
     if (reg.waiting) {
-      showToast('Applying update...', 3000);
-      reg.waiting.postMessage({ action: 'skipWaiting' });
+      showUpdateBanner();
+      showToast('Update ready to install.', 3000);
       return;
     }
 
@@ -1059,8 +1089,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js').then(reg => {
+      swRegistration = reg;
+
       if (reg.waiting) {
-        reg.waiting.postMessage({ action: 'skipWaiting' });
+        showUpdateBanner();
       }
 
       reg.addEventListener('updatefound', () => {
@@ -1069,8 +1101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            showToast('App update found. Updating now...');
-            newWorker.postMessage({ action: 'skipWaiting' });
+            showUpdateBanner();
+            showToast('App update available.', 3000);
           }
         });
       });
