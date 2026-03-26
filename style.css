@@ -215,6 +215,12 @@ body {
   margin-bottom: 1rem;
 }
 
+#form-heading2 {
+  color: #f80505; /* Updated: Matches headings */
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
 /* =======================
    5. PROGRESS BAR
    ======================= */
@@ -587,6 +593,7 @@ legend {
 
 #tutorial-modal h3 {
   font-size: 14px;
+  color: 'var(--text-heading)';
   font-weight: bold;
 }
 
