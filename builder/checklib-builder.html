@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#31849B">
+  <title>Check Lib Builder</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="checklib-builder.css">
+  <link rel="stylesheet" href="../help/help.css">
+</head>
+<body class="checklib-builder-page">
+  <div class="builder-app">
+    <div class="builder-shell">
+
+      <div class="header-container builder-header-container">
+        <button id="builder-theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        <header class="app-header builder-app-header">
+          <img src="../logo.png" alt="Logo" class="header-logo light-logo">
+          <img src="../logo-dark.png" alt="Logo" class="header-logo dark-logo">
+          <div class="header-title">
+            <span class="main-title">CHECK LIBRARY</span>
+            <span class="sub-title">Builder</span>
+          </div>
+        </header>
+      </div>
+
+      <section class="builder-hero-card">
+        <div class="builder-hero-copy">
+          <p class="builder-kicker">Checklist Builder</p>
+          <h1>Build and manage custom checklists</h1>
+          <p>Create, edit, import, export, and manage custom checklists stored on this device.</p>
+        </div>
+        <div class="builder-hero-actions">
+          <button type="button" onclick="window.location.href='../index.html'">Back To App</button>
+          <button type="button" onclick="window.location.href='../help/index.html'">Help</button>
+          <button type="button" id="builder-new-checklist">New Checklist</button>
+          <button type="button" id="builder-open-import">Import CSV</button>
+        </div>
+      </section>
+
+      <div id="builder-help-mount"></div>
+
+      <main class="builder-layout">
+
+        <section class="builder-library">
+          <div class="builder-section-header builder-section-header--framed">
+            <div>
+              <h2>Custom Checklists</h2>
+              <p>Stored on this device</p>
+            </div>
+            <span class="builder-section-chip">Library</span>
+          </div>
+
+          <div class="builder-library-list" id="builder-library-list"></div>
+
+          <div class="builder-empty-state" id="builder-library-empty" hidden>
+            <h3>No custom checklists yet</h3>
+            <p>Create one from scratch or import a CSV checklist file.</p>
+            <div class="builder-empty-state__actions">
+                <button type="button" id="builder-empty-create">Create New</button>
+                <button type="button" id="builder-empty-import">Import CSV</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="builder-editor">
+          <div class="builder-section-header builder-section-header--framed">
+            <div>
+              <h2>Editor</h2>
+              <p>Build and update checklist sections and tasks</p>
+            </div>
+            <span class="builder-section-chip">Workspace</span>
+          </div>
+
+          <div class="builder-editor-statusbar">
+            <div class="builder-editor-stat">
+              <span class="builder-editor-stat__label">Checklist</span>
+              <strong id="builder-stat-title">New checklist</strong>
+            </div>
+            <div class="builder-editor-stat">
+              <span class="builder-editor-stat__label">Sections</span>
+              <strong id="builder-stat-sections">0</strong>
+            </div>
+            <div class="builder-editor-stat">
+              <span class="builder-editor-stat__label">Tasks</span>
+              <strong id="builder-stat-tasks">0</strong>
+            </div>
+            <div class="builder-editor-stat">
+              <span class="builder-editor-stat__label">Status</span>
+              <strong id="builder-dirty-state">Saved</strong>
+            </div>
+          </div>
+
+          <form class="builder-editor-form" id="builder-editor-form">
+            <div class="builder-field">
+              <label for="checklistTitle">Checklist Title</label>
+              <input id="checklistTitle" name="checklistTitle" type="text" value="Example = Fire Door Check">
+            </div>
+
+            <div class="builder-field">
+              <label for="checklistDescription">Description</label>
+              <textarea id="checklistDescription" name="checklistDescription">Daily inspection for fire doors, signage, and access routes. Delete this text.</textarea>
+            </div>
+
+            <div class="builder-sections" id="builder-sections">
+                <section class="builder-section-card" data-section-id="section-1">
+                    <div class="builder-section-card__header">
+                        <div class="builder-field builder-field--grow">
+                        <label for="sectionName1">Section Name</label>
+                        <input id="sectionName1" type="text" value="External Checks">
+                        </div>
+                        <div class="builder-section-card__actions">
+                        <button type="button" data-action="toggle-section">Collapse</button>
+                        <button type="button" data-action="add-task">Add Task</button>
+                        <button type="button" data-action="move-section">Move</button>
+                        <button type="button" data-action="delete-section">Delete Section</button>
+                        </div>
+                    </div>
+
+                    <div class="builder-task-list">
+                        <div class="builder-task-row" data-task-id="task-1">
+                        <div class="builder-field">
+                            <label for="task1">Task</label>
+                            <input id="task1" type="text" value="Check main entrance is clear">
+                        </div>
+                        <div class="builder-task-row__actions">
+                            <button type="button" data-action="delete-task">Delete Task</button>
+                        </div>
+                        </div>
+
+                        <div class="builder-task-row" data-task-id="task-2">
+                        <div class="builder-field">
+                            <label for="task2">Task</label>
+                            <input id="task2" type="text" value="Check external fire exit signage is visible">
+                        </div>
+                        <div class="builder-task-row__actions">
+                            <button type="button" data-action="delete-task">Delete Task</button>
+                        </div>
+                        </div>
+                    </div>
+                </section>
+                </div>
+
+            <div class="builder-validation-summary builder-hidden" id="builder-validation-summary"></div>
+            <div class="builder-save-status builder-hidden" id="builder-save-status"></div>
+
+            <div class="builder-editor-actions-shell">
+              <div class="builder-editor-actions">
+                  <button type="button" id="builder-add-section">Add Section</button>
+                  <button type="submit" id="builder-save-checklist">Save Checklist</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="builder-editor-empty" id="builder-editor-empty" hidden>
+            <h3>No checklist selected</h3>
+            <p>Select a checklist to edit, or create a new one.</p>
+          </div>
+        </section>
+
+      </main>
+
+            <dialog class="builder-modal" id="importModal">
+                <div class="builder-modal__content">
+                    <h2>Import CSV</h2>
+                    <input type="file" id="builder-import-file" accept=".csv">
+                    <div class="builder-modal__actions">
+                    <button type="button" id="builder-import-cancel">Cancel</button>
+                    <button type="button" id="builder-import-confirm">Import</button>
+                    </div>
+                </div>
+            </dialog>
+
+            <dialog class="builder-modal" id="deleteModal">
+                <div class="builder-modal__content">
+                    <h2>Delete Checklist</h2>
+                    <p id="builder-delete-message">Are you sure you want to delete this checklist?</p>
+                    <div class="builder-modal__actions">
+                    <button type="button" id="builder-delete-cancel">Cancel</button>
+                    <button type="button" id="builder-delete-confirm">Delete</button>
+                    </div>
+                </div>
+            </dialog>
+
+            <template id="builder-section-template">
+                <section class="builder-section-card" data-section-id="">
+                    <div class="builder-section-card__header">
+                        <div class="builder-field builder-field--grow">
+                            <label>Section Name</label>
+                            <input type="text" value="">
+                        </div>
+                        <div class="builder-section-card__actions">
+                            <button type="button" data-action="toggle-section">Collapse</button>
+                            <button type="button" data-action="add-task">Add Task</button>
+                            <button type="button" data-action="move-section">Move</button>
+                            <button type="button" data-action="delete-section">Delete Section</button>
+                        </div>
+                    </div>
+
+                    <div class="builder-task-list"></div>
+                </section>
+            </template>
+
+    </div>
+  </div>
+        <!-- FOOTER -->
+        <footer>
+          <img src="/cybr1.png" alt="Check Lib Footer Logo" class="footer-logo">
+          <p class="footer-text">© 2026 Check Lib Local v2.0 - CYBRFRG<br>For Internal Business Use Only</br></p>
+        </footer>
+      </div>
+  <script src="checklib-builder.js"></script>
+  <script src="../help/help.js"></script>
+  <script>
+    window.CheckLibHelp && window.CheckLibHelp.init({
+      context: 'builder',
+      inlineMountSelector: '#builder-help-mount',
+      triggerSelector: '.checklib-help-trigger'
+    });
+  </script>
+</body>
+</html>

@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#31849B">
   <title>Check Lib</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="help/help.css">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="logo.png">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -34,8 +36,11 @@
           <div class="header-title">
             <span class="main-title">CHECK LIBRARY</span>
             <span class="sub-title" id="checklist-title">Checklist B</span>
-            <button id="install-app" hidden>Install App</button>
-            <button id="learn-button" aria-label="Open tutorial wizard">Learn</button>
+            <div class="header-title__actions">
+              <button type="button" id="open-builder" onclick="window.location.href='builder/checklib-builder.html'">Open Builder</button>
+              <button type="button" id="open-help" onclick="window.location.href='help/index.html'">Help</button>
+              <button id="install-app" hidden>Install App</button>
+            </div>
           </div>
         </header>
       </div>
@@ -52,71 +57,348 @@
         </div>
       </div>
 
-      <h2 id="form-heading">Please Complete All Fields</h2>
-      <h3 id="form-heading2">Aligns with Version 6 document</h3>
+      <div id="resume-banner" class="resume-banner hidden" role="status" aria-live="polite">
+        <div class="resume-banner-copy">
+          <strong id="resume-banner-title">Draft ready to continue</strong>
+          <span id="resume-banner-meta">Saved recently on this checklist.</span>
+        </div>
+        <div class="resume-banner-actions">
+          <button type="button" id="resume-draft">Continue Draft</button>
+          <button type="button" id="dismiss-draft">Dismiss</button>
+        </div>
+      </div>
 
       <form id="checklist-form" autocomplete="off">
-        <div class="input-group">
-          <label for="checklist-select">Select Checklist:</label>
-          <select id="checklist-select" class="select"></select>
+        <section class="runner-shell" aria-label="Checklist runner">
+          <div class="runner-stagebar runner-progressbar" id="runner-stagebar">
+            <div class="runner-progress-step active" data-stage-chip="setup">
+              <span class="runner-progress-dot"></span>
+              <span class="runner-progress-label">Setup</span>
+            </div>
+            <div class="runner-progress-step" data-stage-chip="section">
+              <span class="runner-progress-dot"></span>
+              <span class="runner-progress-label">Sections</span>
+            </div>
+            <div class="runner-progress-step" data-stage-chip="issues">
+              <span class="runner-progress-dot"></span>
+              <span class="runner-progress-label">Issues</span>
+            </div>
+            <div class="runner-progress-step" data-stage-chip="final">
+              <span class="runner-progress-dot"></span>
+              <span class="runner-progress-label">Final</span>
+            </div>
+          </div>
+
+          <div class="runner-summary" id="runner-summary">
+            <div class="runner-summary-item">
+              <span class="runner-summary-label">Section</span>
+              <strong id="runner-summary-section">0 / 0</strong>
+            </div>
+            <div class="runner-summary-item">
+              <span class="runner-summary-label">Answered</span>
+              <strong id="runner-summary-completion">0 / 0</strong>
+            </div>
+            <div class="runner-summary-item">
+              <span class="runner-summary-label">Issues</span>
+              <strong id="runner-summary-issues">0</strong>
+            </div>
+          </div>
+          <p class="runner-autosave-status" id="runner-autosave-status">Autosave: not yet saved.</p>
+          <div id="runner-help-mount"></div>
+
+          <div class="runner-panel" id="stage-setup-panel" data-stage-panel="setup">
+            <div class="input-group input-group-checklist-select">
+              <label for="checklist-select">Select Checklist:</label>
+              <select id="checklist-select" class="select"></select>
+              <p id="selected-checklist-preview" class="selected-checklist-preview"></p>
+            </div>
+
+            <div class="input-group">
+              <label for="checklist-date">Date:</label>
+              <input type="date" id="checklist-date" class="input" required>
+              <div id="error-checklist-date" class="error-message hidden"></div>
+            </div>
+
+            <div class="input-group">
+              <label for="supervisor">Team Leader / Manager:</label>
+              <input type="text" id="supervisor" class="input" required>
+              <div id="error-supervisor" class="error-message hidden"></div>
+            </div>
+
+            <div class="input-group">
+              <label for="cleaner-team">Team Member Leading Task:</label>
+              <input type="text" id="cleaner-team" class="input" required>
+              <div id="error-cleaner-team" class="error-message hidden"></div>
+            </div>
+
+            <div class="input-group">
+              <label for="unit-area">Unit/Area:</label>
+              <input type="text" id="unit-area" class="input" required>
+              <div id="error-unit-area" class="error-message hidden"></div>
+            </div>
+
+            <div class="runner-actions">
+              <button type="button" id="start-runner">Start Checklist</button>
+            </div>
+          </div>
+
+          <div class="runner-panel hidden" id="stage-section-panel" data-stage-panel="section">
+            <div class="runner-mobile-header">
+              <div class="runner-mobile-header-top">
+                <div>
+                  <p class="runner-kicker" id="section-kicker">Section 1</p>
+                  <h3 id="section-title">Checklist Section</h3>
+                </div>
+                <div class="runner-mobile-header-actions">
+                  <button type="button" class="runner-nav-button" id="open-section-drawer">Sections</button>
+                  <div class="runner-issue-badge" id="runner-issue-badge">0 issues</div>
+                </div>
+              </div>
+              <p class="runner-mobile-checklist" id="runner-mobile-checklist-title">Checklist</p>
+              <div class="runner-mobile-stats">
+                <div class="runner-mobile-stat">
+                  <span class="runner-mobile-stat-label">Questions</span>
+                  <strong id="runner-question-progress">0 / 0</strong>
+                </div>
+                <div class="runner-mobile-stat">
+                  <span class="runner-mobile-stat-label">Answered</span>
+                  <strong id="runner-answered-count">0</strong>
+                </div>
+                <div class="runner-mobile-stat">
+                  <span class="runner-mobile-stat-label">Issues</span>
+                  <strong id="runner-section-issues">0</strong>
+                </div>
+              </div>
+            </div>
+            <div class="runner-section-header">
+              <div class="runner-section-meta" id="section-meta">0 items</div>
+              <div class="section-guidance-banner" id="section-guidance-banner">
+                <p class="section-guidance-text" id="section-guidance-text">Section guidance will appear here.</p>
+                <div class="section-guidance-actions">
+                  <button type="button" class="runner-nav-button" id="section-show-unanswered">Show unanswered</button>
+                </div>
+              </div>
+            </div>
+            <div id="checklist-container"></div>
+            <div class="runner-actions runner-actions-desktop">
+              <button type="button" id="section-prev">Previous Section</button>
+              <button type="button" id="section-next">Next Section</button>
+              <button type="button" id="section-review">Review Issues</button>
+            </div>
+            <div class="runner-sticky-footer">
+              <button type="button" id="section-prev-sticky">Back</button>
+              <button type="button" id="section-save-sticky">Save</button>
+              <button type="button" id="section-review-sticky">Issues</button>
+              <button type="button" id="section-next-sticky">Next</button>
+            </div>
+          </div>
+
+          <div class="runner-panel hidden" id="stage-issues-panel" data-stage-panel="issues">
+            <div class="runner-review-header">
+              <h3>Issues Review</h3>
+              <p id="issues-summary-text">No issues recorded.</p>
+            </div>
+            <div id="issues-review-container"></div>
+            <div class="runner-actions">
+              <button type="button" id="issues-back">Back To Sections</button>
+              <button type="button" id="issues-next">Continue To Final Review</button>
+            </div>
+          </div>
+
+          <div class="runner-panel hidden" id="stage-final-panel" data-stage-panel="final">
+            <div class="runner-review-header">
+              <h3>Final Review</h3>
+              <p id="final-summary-text">Check your answers and sign to finalise.</p>
+            </div>
+            <div id="final-validation-summary"></div>
+            <div id="final-review-container"></div>
+            <div class="runner-actions">
+              <button type="button" id="final-back">Back To Issues</button>
+              <button type="button" id="final-save-draft">Save Draft</button>
+              <button type="button" id="final-proceed-signature">Proceed To Signature</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="runner-drawer hidden" id="section-drawer" aria-hidden="true">
+          <div class="runner-drawer-backdrop" id="section-drawer-close"></div>
+          <div class="runner-drawer-panel" role="dialog" aria-modal="true" aria-label="Section navigator">
+            <div class="runner-drawer-header">
+              <div>
+                <p class="runner-kicker">Navigator</p>
+                <h3>Jump To Section</h3>
+              </div>
+              <button type="button" class="runner-drawer-dismiss" id="section-drawer-dismiss">Close</button>
+            </div>
+            <div class="runner-drawer-list" id="section-drawer-list"></div>
+          </div>
         </div>
 
-        <div class="input-group">
-          <label for="checklist-date">Date:</label>
-          <input type="date" id="checklist-date" class="input" required>
-          <div id="error-checklist-date" class="error-message hidden"></div>
-        </div>
+        <section class="control-hub" aria-label="Inspection tools, reports and history">
+          <details class="control-accordion">
+            <summary>
+              <span>Inspection Tools</span>
+              <span class="control-accordion-kicker">Current check</span>
+            </summary>
+            <div class="control-accordion-panel">
+              <div class="control-grid">
+                <button type="button" id="check-all-yes">Check All Yes</button>
+                <button type="button" id="clear-form">Clear Form</button>
+                <button type="button" id="save-progress">Save Progress</button>
+                <button type="button" id="load-progress">Load Progress</button>
+                <button type="button" id="check-update">Check for App Updates</button>
+              </div>
+            </div>
+          </details>
 
-        <div class="input-group">
-          <label for="supervisor">Team Leader / Manager:</label>
-          <input type="text" id="supervisor" class="input" required>
-          <div id="error-supervisor" class="error-message hidden"></div>
-        </div>
+          <details class="control-accordion" open>
+            <summary>
+              <span>Reports</span>
+              <span class="control-accordion-kicker">Output and queue</span>
+            </summary>
+            <div class="control-accordion-panel">
+              <div id="report-status" class="report-status-card">
+                <span class="report-status-label">Reports Added</span>
+                <strong id="report-count">0</strong>
+              </div>
 
-        <div class="input-group">
-          <label for="cleaner-team">Team Member Leading Task:</label>
-          <input type="text" id="cleaner-team" class="input" required>
-          <div id="error-cleaner-team" class="error-message hidden"></div>
-        </div>
+              <div class="report-primary-actions">
+                <button type="button" id="add-to-report" class="report-primary-button">Add to Queue</button>
+                <button type="button" id="export-report" class="report-primary-button report-primary-button-export">Export Queue</button>
+              </div>
 
-        <div class="input-group">
-          <label for="unit-area">Unit/Area:</label>
-          <input type="text" id="unit-area" class="input" required>
-          <div id="error-unit-area" class="error-message hidden"></div>
-        </div>
+              <details class="report-more-actions">
+                <summary>
+                  <span>More report actions</span>
+                  <span class="report-more-actions-kicker">Share, export setup, CSV, clear</span>
+                </summary>
+                <div class="report-more-actions-panel">
+                  <div class="control-grid control-grid-compact">
+                    <button type="button" id="share-reports">Share Reports</button>
+                    <button type="button" id="export-options">Advanced Export</button>
+                    <button type="button" id="export-queue-csv">Export Queue CSV</button>
+                    <button type="button" id="clear-reports">Clear Queue</button>
+                  </div>
+                </div>
+              </details>
 
-        <div id="checklist-container"></div>
+              <div class="report-dashboard-tiles" id="queue-dashboard-tiles">
+                <button type="button" class="report-dashboard-tile is-clickable is-active" data-tile-scope="queue" data-filter-value="all">
+                  <span class="report-dashboard-label">Queued Reports</span>
+                  <strong id="queue-tile-count">0</strong>
+                </button>
+                <button type="button" class="report-dashboard-tile is-clickable" data-tile-scope="queue" data-filter-value="issues">
+                  <span class="report-dashboard-label">Queued Issues</span>
+                  <strong id="queue-tile-issues">0</strong>
+                </button>
+                <button type="button" class="report-dashboard-tile is-clickable" data-tile-scope="queue" data-filter-value="signed">
+                  <span class="report-dashboard-label">Signed Queue</span>
+                  <strong id="queue-tile-signed">0</strong>
+                </button>
+                <button type="button" class="report-dashboard-tile is-clickable" data-tile-scope="queue" data-filter-value="clear">
+                  <span class="report-dashboard-label">Clear Queue</span>
+                  <strong id="queue-tile-clear">0</strong>
+                </button>
+              </div>
 
-        <fieldset>
-          <legend>Form Actions</legend>
-          <button type="button" id="check-all-yes">Check All Yes</button>
-          <button type="button" id="clear-form">Clear Form</button>
-        </fieldset>
+              <div id="report-list" class="control-subpanel">
+                <div class="control-subpanel-header">
+                  <h3>Active Queue</h3>
+                  <span class="control-subpanel-kicker">Queue ready for export</span>
+                </div>
+                <details class="report-filter-strip" id="queue-filter-strip">
+                  <summary>
+                    <span>Filter reports</span>
+                    <span class="report-filter-strip-kicker" id="queue-filter-summary">All queue reports</span>
+                  </summary>
+                  <div class="report-filter-strip-panel">
+                    <div class="report-toolbar">
+                      <input type="search" id="queue-search" class="input report-search-input" placeholder="Search queue by checklist, unit, supervisor or date">
+                      <select id="queue-filter" class="select report-filter-select">
+                        <option value="all">All queue reports</option>
+                        <option value="issues">Issues only</option>
+                        <option value="clear">Clear only</option>
+                        <option value="signed">Signed only</option>
+                        <option value="unsigned">Unsigned only</option>
+                      </select>
+                    </div>
+                  </div>
+                </details>
+                <ul id="report-items"></ul>
+              </div>
+            </div>
+          </details>
 
-        <fieldset>
-          <legend>Reporting</legend>
-          <button type="button" id="add-to-report">Add to Report</button>
-          <button type="button" id="export-report">Export All Reports as PDF</button>
-          <button type="button" id="share-reports">Share All Reports</button>
-          <button type="button" id="clear-reports">Clear All Reports</button>
-        </fieldset>
+          <details class="control-accordion">
+            <summary>
+              <span>History</span>
+              <span class="control-accordion-kicker">Archive and restore</span>
+            </summary>
+            <div class="control-accordion-panel">
+              <div id="archive-status" class="report-status-card report-status-card-muted">
+                <span class="report-status-label">Archived Reports</span>
+                <strong id="archive-count">0</strong>
+              </div>
 
-        <fieldset>
-          <legend>Progress & Updates</legend>
-          <button type="button" id="save-progress">Save Progress</button>
-          <button type="button" id="load-progress">Load Progress</button>
-          <button type="button" id="check-update">Check for App Updates</button>
-        </fieldset>
+              <details class="report-more-actions report-more-actions-history">
+                <summary>
+                  <span>More history actions</span>
+                  <span class="report-more-actions-kicker">Archive CSV export</span>
+                </summary>
+                <div class="report-more-actions-panel">
+                  <div class="control-grid control-grid-compact">
+                    <button type="button" id="export-archive-csv">Export Archive CSV</button>
+                  </div>
+                </div>
+              </details>
 
-        <div id="report-status">
-          Reports Added: <span id="report-count">0</span>
-        </div>
+              <div class="report-dashboard-tiles" id="archive-dashboard-tiles">
+                <button type="button" class="report-dashboard-tile muted is-clickable is-active" data-tile-scope="archive" data-filter-value="all">
+                  <span class="report-dashboard-label">Archived Reports</span>
+                  <strong id="archive-tile-count">0</strong>
+                </button>
+                <button type="button" class="report-dashboard-tile muted is-clickable" data-tile-scope="archive" data-filter-value="issues">
+                  <span class="report-dashboard-label">Archived Issues</span>
+                  <strong id="archive-tile-issues">0</strong>
+                </button>
+                <button type="button" class="report-dashboard-tile muted is-clickable" data-tile-scope="archive" data-filter-value="signed">
+                  <span class="report-dashboard-label">Signed Archive</span>
+                  <strong id="archive-tile-signed">0</strong>
+                </button>
+                <button type="button" class="report-dashboard-tile muted is-clickable" data-tile-scope="archive" data-filter-value="clear">
+                  <span class="report-dashboard-label">Clear Archive</span>
+                  <strong id="archive-tile-clear">0</strong>
+                </button>
+              </div>
 
-        <!-- REPORT LIST -->
-        <div id="report-list">
-          <h3>Reports in Queue</h3>
-          <ul id="report-items"></ul>
-        </div>
+              <div id="archive-list" class="control-subpanel">
+                <div class="control-subpanel-header">
+                  <h3>Archived Reports</h3>
+                  <span class="control-subpanel-kicker">Archived report history</span>
+                </div>
+                <details class="report-filter-strip" id="archive-filter-strip">
+                  <summary>
+                    <span>Filter reports</span>
+                    <span class="report-filter-strip-kicker" id="archive-filter-summary">All archived reports</span>
+                  </summary>
+                  <div class="report-filter-strip-panel">
+                    <div class="report-toolbar">
+                      <input type="search" id="archive-search" class="input report-search-input" placeholder="Search archive by checklist, unit, supervisor or date">
+                      <select id="archive-filter" class="select report-filter-select">
+                        <option value="all">All archived reports</option>
+                        <option value="issues">Issues only</option>
+                        <option value="clear">Clear only</option>
+                        <option value="signed">Signed only</option>
+                        <option value="unsigned">Unsigned only</option>
+                      </select>
+                    </div>
+                  </div>
+                </details>
+                <ul id="archive-items"></ul>
+              </div>
+            </div>
+          </details>
+        </section>
       </form>
 
       <!-- SIGNATURE MODAL -->
@@ -132,40 +414,82 @@
           </div>
         </div>
       </div>
-    </div>
 
-      <!-- TUTORIAL MODAL -->
-    <div id="tutorial-modal" class="modal" role="dialog" aria-label="Check Lib Tutorial">
-      <div class="modal-content">
-        <h2>Check Lib Tutorial</h2>
-        <div id="tutorial-content">
-          <h3 id="tutorial-title"></h3>
-          <p id="tutorial-description"></p>
-          <p id="tutorial-tip" class="tip"></p>
-          <button id="tutorial-learn-more" aria-label="Show more technical details" style="display: none;">Learn More</button>
-          <p id="tutorial-learn-more-text" style="display: none;"></p>
-          <img id="tutorial-image" src="" alt="" style="max-width: 100%; height: auto; margin: 10px auto; display: none;">
-          <p id="tutorial-progress"></p>
+      <div class="modal hidden" id="confirm-modal">
+        <div class="modal-content confirm-modal-content">
+          <h3 id="confirm-modal-title">Please Confirm</h3>
+          <p id="confirm-modal-message">Are you sure?</p>
+          <div class="modal-buttons">
+            <button type="button" id="confirm-modal-cancel">Cancel</button>
+            <button type="button" id="confirm-modal-confirm">Confirm</button>
+          </div>
         </div>
-        <div class="modal-actions">
-          <button id="tutorial-back">Back</button>
-          <button id="tutorial-next">Next</button>
-          <button id="tutorial-skip">Skip</button>
+      </div>
+
+      <div class="modal hidden" id="export-decision-modal">
+        <div class="modal-content export-options-content">
+          <h3 id="export-modal-title">Export Options</h3>
+          <p id="export-modal-context" class="export-modal-context">Choose export settings.</p>
+
+          <div class="export-options-group">
+            <label for="export-content-mode">Export content</label>
+            <select id="export-content-mode" class="select">
+              <option value="full">Full report</option>
+              <option value="summary_issues">Summary and issues only</option>
+              <option value="issues_only">Issues only</option>
+            </select>
+          </div>
+
+          <div class="export-options-group">
+            <label for="export-after-mode">After export</label>
+            <select id="export-after-mode" class="select">
+              <option value="keep">Keep in queue</option>
+              <option value="archive">Move exported reports to archive</option>
+            </select>
+          </div>
+
+          <div class="modal-buttons">
+            <button type="button" id="export-cancel">Cancel</button>
+            <button type="button" id="export-run">Export Now</button>
+          </div>
         </div>
-        <p class="modal-close"><a href="#" id="tutorial-close">Close Tutorial</a></p>
+      </div>
+
+      <div class="modal hidden" id="report-detail-modal">
+        <div class="modal-content report-detail-content">
+          <div class="report-detail-header">
+            <div>
+              <h3 id="report-detail-title">Report Detail</h3>
+              <p id="report-detail-context" class="export-modal-context">Review this saved report.</p>
+            </div>
+            <button type="button" id="report-detail-close" class="runner-nav-button">Close</button>
+          </div>
+
+          <div id="report-detail-summary" class="report-detail-summary"></div>
+          <div id="report-detail-sections" class="report-detail-sections"></div>
+          <div id="report-detail-issues" class="report-detail-issues"></div>
+        </div>
       </div>
     </div>
 
     <!-- FOOTER -->
     <footer>
-      <img src="cyber1.png" alt="Check Lib Footer Logo" class="footer-logo">
-      <p class="footer-text">© 2025 Check Lib - CYBRFRG<br>For Internal Business Use Only</p>
+      <img src="cybr1.png" alt="Check Lib Footer Logo" class="footer-logo">
+      <p class="footer-text">© 2026 Check Lib Local v2.0 - CYBRFRG<br>For Internal Business Use Only</p>
     </footer>
   </div>
 
   <!-- Toast container -->
   <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
-  <script type="module" src="checklist.js"></script>
+  <script src="checklist.js"></script>
+  <script src="help/help.js"></script>
+  <script>
+    window.CheckLibHelp && window.CheckLibHelp.init({
+      context: 'runner',
+      inlineMountSelector: '#runner-help-mount',
+      triggerSelector: '.checklib-help-trigger'
+    });
+  </script>
 </body>
 </html>

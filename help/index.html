@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#31849B">
+  <title>Check Lib Help</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="help.css">
+</head>
+<body class="checklib-help-page">
+  <div class="container checklib-help-shell">
+    <div class="header-container builder-header-container">
+      <button id="help-theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">Dark</button>
+      <header class="app-header builder-app-header">
+        <img src="../logo.png" alt="Logo" class="header-logo light-logo">
+        <img src="../logo-dark.png" alt="Logo" class="header-logo dark-logo">
+        <div class="header-title">
+          <span class="main-title">CHECK LIBRARY</span>
+          <span class="sub-title">Help and User Guide</span>
+          <div class="header-title__actions">
+            <button type="button" onclick="window.location.href='../index.html'">Open App</button>
+            <button type="button" onclick="window.location.href='../builder/checklib-builder.html'">Open Builder</button>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <section class="builder-hero-card checklib-help-hero">
+      <div class="builder-hero-copy">
+        <p class="builder-kicker">User Guide</p>
+        <h1>Runner, Builder, reports, archive, and local storage</h1>
+        <p>Use this page as the main manual for site teams, managers, and anyone building new checklists on the device.</p>
+      </div>
+      <div class="builder-hero-actions checklib-help-toggle-panel">
+        <button type="button" id="help-embedded-toggle">Disable In-App Help</button>
+        <button type="button" id="help-copy-link">Copy This Page Link</button>
+      </div>
+    </section>
+
+    <main class="checklib-help-layout">
+      <section class="checklib-help-content">
+        <div class="checklib-help-menu-wrap">
+          <button
+            type="button"
+            id="help-sections-toggle"
+            class="checklib-help-menu-toggle"
+            aria-expanded="false"
+            aria-controls="help-sections-menu"
+          >
+            <span class="checklib-help-menu-toggle__icon" aria-hidden="true">☰</span>
+            <span class="checklib-help-menu-toggle__label">Guide Sections</span>
+          </button>
+
+          <div
+            id="help-sections-menu"
+            class="checklib-help-menu-panel card-panel"
+            hidden
+          >
+            <nav class="checklib-help-menu-nav">
+              <a href="#overview">Overview</a>
+              <a href="#runner-start">Start a checklist</a>
+              <a href="#runner-sections">Complete sections</a>
+              <a href="#runner-issues">Review issues</a>
+              <a href="#runner-final">Final review and signature</a>
+              <a href="#reports">Queue, export, archive</a>
+              <a href="#pdf-export">PDF export and file handling</a>
+              <a href="#builder">Builder guide</a>
+              <a href="#offline">Offline and storage</a>
+              <a href="#troubleshooting">Troubleshooting</a>
+              <a href="#quick-reference">Quick reference</a>
+            </nav>
+          </div>
+        </div>
+        <article id="overview" class="checklib-help-card card-panel">
+          <h2>Overview</h2>
+          <p>Check Lib has two working areas.</p>
+          <div class="checklib-help-grid">
+            <div class="checklib-help-mini-card">
+              <h3>Runner App</h3>
+              <p>Used to complete inspections, capture issues, sign off work, and export reports.</p>
+            </div>
+            <div class="checklib-help-mini-card">
+              <h3>Checklist Builder</h3>
+              <p>Used to create, edit, import, duplicate, and delete custom checklists stored on the device.</p>
+            </div>
+          </div>
+          <p>The app is local-first. Built-in checklists load from the <code>/checks</code> folder. Custom checklists are stored in IndexedDB and then merged into the Runner checklist selector.</p>
+        </article>
+
+        <article id="runner-start" class="checklib-help-card card-panel">
+          <h2>Start a checklist</h2>
+          <ol>
+            <li>Open the Runner app.</li>
+            <li>Select the checklist from the drop-down list.</li>
+            <li>Enter the date.</li>
+            <li>Enter the Team Leader or Manager name.</li>
+            <li>Enter the Team Member leading the task.</li>
+            <li>Enter the Unit or Area.</li>
+            <li>Tap <strong>Start Checklist</strong>.</li>
+          </ol>
+          <p>The stage bar moves from Setup to Sections, then Issues, then Final.</p>
+        </article>
+
+        <article id="runner-sections" class="checklib-help-card card-panel">
+          <h2>Complete sections</h2>
+          <p>Each section shows the current section title, item count, answered count, and issue count.</p>
+          <ul>
+            <li>Use <strong>Sections</strong> to jump through the drawer navigator.</li>
+            <li>Use <strong>Show unanswered</strong> to focus only on incomplete items.</li>
+            <li>Use the sticky footer for Back, Save, Issues, and Next on mobile.</li>
+            <li>Autosave runs while you work after the checklist starts.</li>
+          </ul>
+        </article>
+
+        <article id="runner-issues" class="checklib-help-card card-panel">
+          <h2>Review issues</h2>
+          <p>An issue is created when an item is marked as a failure state. The Issues Review stage lets you complete the issue record before sign-off.</p>
+          <ul>
+            <li>Add issue comments.</li>
+            <li>Set severity.</li>
+            <li>Mark whether action is required.</li>
+            <li>Assign a responsible person if needed.</li>
+            <li>Set a due date if needed.</li>
+          </ul>
+          <p>Use the jump buttons to return to the related section item.</p>
+        </article>
+
+        <article id="runner-final" class="checklib-help-card card-panel">
+          <h2>Final review and signature</h2>
+          <p>The final stage checks readiness before signature. You cannot sign off until required fields and issue comments are complete.</p>
+          <ul>
+            <li>Use <strong>Save Draft</strong> to hold progress.</li>
+            <li>Use <strong>Proceed To Signature</strong> when validation is complete.</li>
+            <li>Sign inside the signature pad and confirm.</li>
+          </ul>
+        </article>
+
+        <article id="reports" class="checklib-help-card card-panel">
+          <h2>Queue, export, and archive</h2>
+          <div class="checklib-help-grid">
+            <div class="checklib-help-mini-card">
+              <h3>Queue</h3>
+              <p>Active reports waiting for export. You can export, archive, search, filter, inspect, and clear items.</p>
+            </div>
+            <div class="checklib-help-mini-card">
+              <h3>Archive</h3>
+              <p>Stores completed report history. You can re-export, restore, search, filter, and delete archived items.</p>
+            </div>
+          </div>
+          <p>Export modes:</p>
+          <ul>
+            <li>Full report</li>
+            <li>Summary and issues only</li>
+            <li>Issues only</li>
+          </ul>
+          <p>After export, choose whether to keep reports in queue or move them to archive.</p>
+          <p>See <strong>PDF export and file handling</strong> below for the full export flow, content modes, single report export, and CSV summary output.</p>
+        </article>
+
+        <article id="pdf-export" class="checklib-help-card card-panel">
+          <h2>PDF export and file handling</h2>
+          <p>Check Lib uses the queue as the holding area for completed reports. A report is not part of the export batch until it has been added to the queue.</p>
+
+          <div class="checklib-help-grid">
+            <div class="checklib-help-mini-card">
+              <h3>Add to Queue</h3>
+              <p>Saves the current signed checklist as a queued report ready for export. This does not export the PDF yet.</p>
+            </div>
+            <div class="checklib-help-mini-card">
+              <h3>Export Queue</h3>
+              <p>Exports the reports currently stored in the queue. This is the main PDF output action for batched report handling.</p>
+            </div>
+          </div>
+
+          <h3>Export content modes</h3>
+          <ul>
+            <li><strong>Full report</strong>, includes summary, issues, and full checklist content.</li>
+            <li><strong>Summary and issues only</strong>, keeps the result focused on overview and exceptions.</li>
+            <li><strong>Issues only</strong>, outputs only the exception content for follow-up use.</li>
+          </ul>
+
+          <h3>After export behaviour</h3>
+          <ul>
+            <li><strong>Keep in queue</strong>, the report stays in the active queue after PDF export.</li>
+            <li><strong>Move to archive</strong>, the report leaves the queue and is stored in archive history after export.</li>
+          </ul>
+
+          <h3>Single report export</h3>
+          <p>Queue cards and archive cards support single report export. Use this when you do not want to export the full queue.</p>
+
+          <h3>Archive handling</h3>
+          <ul>
+            <li>Archived reports can be viewed again.</li>
+            <li>Archived reports can be re-exported.</li>
+            <li>Archived reports can be restored to the queue.</li>
+            <li>Archived reports can be deleted when no longer needed.</li>
+          </ul>
+
+          <h3>CSV export</h3>
+          <p>Queue CSV export and Archive CSV export create summary files for report tracking. These are not the same as the PDF report output and are intended for list-style review and analysis.</p>
+
+          <h3>PDF content notes</h3>
+          <ul>
+            <li>The PDF uses checklist metadata such as date, supervisor, team member, and unit or area.</li>
+            <li>Issues are pulled from failed items and include comments and issue fields entered during review.</li>
+            <li>Signed reports include the captured signature in the final exported record.</li>
+          </ul>
+        </article>
+
+        <article id="builder" class="checklib-help-card card-panel">
+          <h2>Builder guide</h2>
+          <ol>
+            <li>Open Builder from the app header or direct link.</li>
+            <li>Create a new checklist or select one from the library.</li>
+            <li>Set title and description.</li>
+            <li>Add sections.</li>
+            <li>Add tasks inside each section.</li>
+            <li>Save the checklist to local storage.</li>
+          </ol>
+          <div class="checklib-help-grid">
+            <div class="checklib-help-mini-card">
+              <h3>Import CSV</h3>
+              <p>Imports a CSV file into the editor. Review the structure before saving.</p>
+            </div>
+            <div class="checklib-help-mini-card">
+              <h3>Custom checklist library</h3>
+              <p>Stored in IndexedDB on the device. Runner reads these and adds them to the checklist selector.</p>
+            </div>
+          </div>
+        </article>
+
+        <article id="offline" class="checklib-help-card card-panel">
+          <h2>Offline, caching, and storage</h2>
+          <ul>
+            <li>The service worker caches core app files for repeat use.</li>
+            <li>Queue and archive data are held in localStorage.</li>
+            <li>Builder checklists are held in IndexedDB.</li>
+            <li>Built-in checklist files remain in the app package under <code>/checks</code>.</li>
+          </ul>
+          <p>If the service worker cache fails during install, the app may still load from network but offline behaviour may be limited until the cache issue is fixed.</p>
+        </article>
+
+        <article id="troubleshooting" class="checklib-help-card card-panel">
+          <h2>Troubleshooting</h2>
+          <div class="checklib-help-grid">
+            <div class="checklib-help-mini-card">
+              <h3>Custom checklist not showing in Runner</h3>
+              <p>Save it in Builder, then refresh the Runner app so metadata reloads.</p>
+            </div>
+            <div class="checklib-help-mini-card">
+              <h3>Save failed in Builder</h3>
+              <p>Refresh the page and try again. Database connection closing errors usually happen during unstable IndexedDB state.</p>
+            </div>
+            <div class="checklib-help-mini-card">
+              <h3>Offline install issue</h3>
+              <p>Check the service worker file list. Missing or invalid cache paths will break <code>cache.addAll</code>.</p>
+            </div>
+            <div class="checklib-help-mini-card">
+              <h3>Missing report</h3>
+              <p>Check whether it was archived, deleted, or still held in queue.</p>
+            </div>
+          </div>
+        </article>
+
+        <article id="quick-reference" class="checklib-help-card card-panel">
+          <h2>Quick reference</h2>
+          <table class="checklib-help-table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Main actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Runner setup</td>
+                <td>Select checklist, enter names, set unit, start checklist</td>
+              </tr>
+              <tr>
+                <td>Sections</td>
+                <td>Answer items, save progress, jump between sections, show unanswered</td>
+              </tr>
+              <tr>
+                <td>Issues</td>
+                <td>Add comments, severity, action required, responsible person, due date</td>
+              </tr>
+              <tr>
+                <td>Final</td>
+                <td>Review, save draft, sign off</td>
+              </tr>
+              <tr>
+                <td>Reports</td>
+                <td>Add to queue, export, archive, search, filter, inspect</td>
+              </tr>
+              <tr>
+                <td>PDF export</td>
+                <td>Add to queue, export full queue or single report, choose content mode, keep or archive after export</td>
+              </tr>
+              <tr>
+                <td>Builder</td>
+                <td>Create, import, edit, duplicate, delete, save custom checklists</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="help.js"></script>
+  <script>
+    window.CheckLibHelp && window.CheckLibHelp.initHelpPage({
+      themeToggleId: 'help-theme-toggle',
+      embeddedToggleId: 'help-embedded-toggle',
+      copyLinkButtonId: 'help-copy-link',
+      sectionMenuToggleId: 'help-sections-toggle',
+      sectionMenuId: 'help-sections-menu'
+    });
+
+
+  </script>
+
+      <!-- FOOTER -->
+        <footer>
+          <img src="/cybr1.png" alt="Check Lib Footer Logo" class="footer-logo">
+          <p class="footer-text">© 2026 Check Lib Local v2.0 - CYBRFRG<br>For Internal Business Use Only</br></p>
+        </footer>
+      </div>
+</body>
+</html>

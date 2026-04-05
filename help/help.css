@@ -1,0 +1,403 @@
+.checklib-help-page {
+  min-height: 100dvh;
+}
+
+.checklib-help-shell {
+  padding-bottom: 2rem;
+}
+
+.checklib-help-hero {
+  margin-bottom: 1rem;
+}
+
+.checklib-help-layout {
+  display: block;
+}
+
+.checklib-help-card,
+.checklib-help-mini-card,
+.checklib-help-embed,
+.checklib-help-modal-panel,
+.checklib-help-menu-panel {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(6px);
+}
+
+.checklib-help-menu-wrap {
+  position: sticky;
+  top: 1rem;
+  z-index: 20;
+  margin-bottom: 1rem;
+}
+
+.checklib-help-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+}
+
+.checklib-help-menu-toggle__icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.checklib-help-menu-panel {
+  margin-top: 0.65rem;
+  padding: 0.85rem;
+}
+
+.checklib-help-menu-panel[hidden] {
+  display: none !important;
+}
+
+.checklib-help-menu-nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.checklib-help-menu-nav a {
+  display: block;
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  text-decoration: none;
+  background: rgba(49, 132, 155, 0.08);
+  color: inherit;
+}
+
+.checklib-help-card code,
+.checklib-help-mini-card code,
+.checklib-help-modal-card code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.dark-theme .checklib-help-card code,
+.dark-theme .checklib-help-mini-card code,
+.dark-theme .checklib-help-modal-card code {
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.96);
+}
+
+.checklib-help-content {
+  display: grid;
+  gap: 1rem;
+}
+
+.checklib-help-card {
+  padding: 1rem 1.1rem;
+}
+
+.checklib-help-card h2 {
+  margin-top: 0;
+}
+
+.checklib-help-card p,
+.checklib-help-card ul,
+.checklib-help-card ol,
+.checklib-help-card table,
+.checklib-help-card .checklib-help-grid,
+.checklib-help-mini-card p,
+.checklib-help-mini-card ul,
+.checklib-help-mini-card ol {
+  margin-top: 0;
+  margin-bottom: 0.9rem;
+}
+
+.checklib-help-card ul,
+.checklib-help-card ol,
+.checklib-help-mini-card ul,
+.checklib-help-mini-card ol {
+  padding-left: 1.35rem;
+}
+
+.checklib-help-card li,
+.checklib-help-mini-card li,
+.checklib-help-modal-list li {
+  margin-bottom: 0.4rem;
+}
+
+.checklib-help-card > :last-child,
+.checklib-help-mini-card > :last-child,
+.checklib-help-modal-card > :last-child {
+  margin-bottom: 0;
+}
+
+.checklib-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 0.9rem;
+}
+
+.checklib-help-mini-card {
+  padding: 0.9rem 1rem;
+}
+
+.checklib-help-mini-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.45rem;
+}
+
+.checklib-help-toggle-panel {
+  align-items: stretch;
+}
+
+.checklib-help-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.checklib-help-table th,
+.checklib-help-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dark-theme .checklib-help-table th,
+.dark-theme .checklib-help-table td {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.checklib-help-trigger {
+  min-width: 92px;
+}
+
+.checklib-help-embed {
+  margin-top: 0.85rem;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.checklib-help-embed[hidden] {
+  display: none !important;
+}
+
+.checklib-help-embed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+}
+
+.checklib-help-embed-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.checklib-help-embed-text {
+  margin: 0;
+}
+
+.checklib-help-embed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.checklib-help-inline-toggle {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+
+.checklib-help-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.checklib-help-modal[hidden] {
+  display: none !important;
+}
+
+.checklib-help-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.checklib-help-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 100%);
+  max-height: min(88dvh, 900px);
+  overflow: auto;
+  padding: 1rem;
+}
+
+.checklib-help-modal-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.checklib-help-modal-title {
+  margin: 0;
+}
+
+.checklib-help-modal-kicker {
+  margin: 0 0 0.25rem;
+  opacity: 0.8;
+}
+
+.checklib-help-modal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.checklib-help-modal-nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.checklib-help-modal-tab {
+  width: 100%;
+  text-align: left;
+  border-radius: 12px;
+}
+
+.checklib-help-modal-tab.is-active {
+  outline: 2px solid rgba(49, 132, 155, 0.35);
+}
+
+.checklib-help-modal-body {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.checklib-help-modal-card {
+  padding: 0.65rem 0;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+}
+
+.checklib-help-modal-card h3,
+.checklib-help-modal-card h4 {
+  margin-top: 0;
+}
+
+.checklib-help-modal-card + .checklib-help-modal-card {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 0.15rem;
+  padding-top: 0.75rem;
+}
+
+.checklib-help-modal-list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.checklib-help-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+}
+
+.checklib-help-muted {
+  opacity: 0.82;
+}
+
+.dark-theme .checklib-help-card,
+.dark-theme .checklib-help-mini-card,
+.dark-theme .checklib-help-embed,
+.dark-theme .checklib-help-modal-panel,
+.dark-theme .checklib-help-menu-panel {
+  background: rgba(32, 35, 39, 0.82);
+  border-color: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.92);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28);
+}
+
+.dark-theme .checklib-help-card h1,
+.dark-theme .checklib-help-card h2,
+.dark-theme .checklib-help-card h3,
+.dark-theme .checklib-help-card h4,
+.dark-theme .checklib-help-mini-card h1,
+.dark-theme .checklib-help-mini-card h2,
+.dark-theme .checklib-help-mini-card h3,
+.dark-theme .checklib-help-mini-card h4,
+.dark-theme .checklib-help-embed h1,
+.dark-theme .checklib-help-embed h2,
+.dark-theme .checklib-help-embed h3,
+.dark-theme .checklib-help-embed h4,
+.dark-theme .checklib-help-modal-panel h1,
+.dark-theme .checklib-help-modal-panel h2,
+.dark-theme .checklib-help-modal-panel h3,
+.dark-theme .checklib-help-modal-panel h4,
+.dark-theme .checklib-help-menu-panel h1,
+.dark-theme .checklib-help-menu-panel h2,
+.dark-theme .checklib-help-menu-panel h3,
+.dark-theme .checklib-help-menu-panel h4 {
+  color: rgba(255,255,255,0.96);
+}
+
+.dark-theme .checklib-help-card p,
+.dark-theme .checklib-help-card li,
+.dark-theme .checklib-help-card td,
+.dark-theme .checklib-help-card th,
+.dark-theme .checklib-help-mini-card p,
+.dark-theme .checklib-help-mini-card li,
+.dark-theme .checklib-help-embed p,
+.dark-theme .checklib-help-embed li,
+.dark-theme .checklib-help-modal-panel p,
+.dark-theme .checklib-help-modal-panel li,
+.dark-theme .checklib-help-menu-panel p,
+.dark-theme .checklib-help-menu-panel li {
+  color: rgba(255,255,255,0.88);
+}
+
+.dark-theme .checklib-help-menu-nav a,
+.dark-theme .checklib-help-modal-card {
+  background: transparent;
+}
+
+.dark-theme .checklib-help-modal-card + .checklib-help-modal-card {
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.dark-theme .checklib-help-table th,
+.dark-theme .checklib-help-table td {
+  color: rgba(255,255,255,0.88);
+}
+
+@media (max-width: 900px) {
+  .checklib-help-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checklib-help-menu-wrap {
+    position: sticky;
+    top: 0.75rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .checklib-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checklib-help-modal-panel,
+  .checklib-help-card,
+  .checklib-help-mini-card,
+  .checklib-help-embed {
+    border-radius: 16px;
+  }
+}
