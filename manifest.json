@@ -2,14 +2,15 @@
   "name": "Check Lib",
   "short_name": "Check Lib",
   "description": "Check Lib for internal checklist build and management.",
-  "start_url": "index.html",
-  "scope": "/",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#1f5361",
   "theme_color": "#31849B",
   "icons": [
-    { "src": "logo-dark.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "cybr1.png",  "sizes": "512x512", "type": "image/png" },
+    { "src": "logo-dark.png", "sizes": "400x401", "type": "image/png" },
+    { "src": "cybr1.png",  "sizes": "400x400", "type": "image/png" },
     { "src": "splash.png", "sizes": "1080x1920", "purpose": "any" }
   ]
 }
