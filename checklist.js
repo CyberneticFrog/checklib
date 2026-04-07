@@ -1164,22 +1164,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const scrollRunnerViewportToTop = () => {
     const progressOffset = updateViewportOffsets();
+    const sectionPanel = document.getElementById('stage-section-panel');
+    if (!sectionPanel) return;
 
-    const anchor = document.getElementById('runner-scroll-anchor');
-    if (!anchor) return;
+    const panelTop = sectionPanel.getBoundingClientRect().top + window.scrollY;
+    const targetTop = Math.max(0, panelTop - progressOffset - 8);
 
-    if (document.activeElement && typeof document.activeElement.blur === 'function') {
-      document.activeElement.blur();
+    window.scrollTo({
+      top: targetTop,
+      left: 0,
+      behavior: 'auto'
+    });
+
+    const heading = document.getElementById('section-title');
+    if (heading && typeof heading.focus === 'function') {
+      heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
     }
-
-    const stickyHeader = document.querySelector('.runner-mobile-header');
-    const stickyHeaderHeight = stickyHeader ? stickyHeader.offsetHeight : 0;
-    const extraGap = 10;
-
-    const anchorTop = anchor.getBoundingClientRect().top + window.pageYOffset;
-    const targetTop = Math.max(0, anchorTop - progressOffset - stickyHeaderHeight - extraGap);
-
-    window.scrollTo(0, targetTop);
   };
 
   const setRunnerStage = (stage, { persist = true } = {}) => {
@@ -2560,9 +2561,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        setTimeout(() => {
-          scrollRunnerViewportToTop();
-        }, 0);
+        scrollRunnerViewportToTop();
       });
     });
 
