@@ -1159,18 +1159,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar = document.querySelector('.progress-container');
     const progressOffset = progressBar ? progressBar.offsetHeight : 44;
     document.documentElement.style.setProperty('--progress-offset', `${progressOffset}px`);
+    return progressOffset;
   };
 
   const scrollRunnerViewportToTop = () => {
-    updateViewportOffsets();
+    const progressOffset = updateViewportOffsets();
 
     const anchor = document.getElementById('runner-scroll-anchor');
     if (!anchor) return;
 
-    anchor.scrollIntoView({
-      behavior: 'auto',
-      block: 'start'
-    });
+    if (document.activeElement && typeof document.activeElement.blur === 'function') {
+      document.activeElement.blur();
+    }
+
+    const stickyHeader = document.querySelector('.runner-mobile-header');
+    const stickyHeaderHeight = stickyHeader ? stickyHeader.offsetHeight : 0;
+    const extraGap = 10;
+
+    const anchorTop = anchor.getBoundingClientRect().top + window.pageYOffset;
+    const targetTop = Math.max(0, anchorTop - progressOffset - stickyHeaderHeight - extraGap);
+
+    window.scrollTo(0, targetTop);
   };
 
   const setRunnerStage = (stage, { persist = true } = {}) => {
@@ -2551,7 +2560,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        scrollRunnerViewportToTop();
+        setTimeout(() => {
+          scrollRunnerViewportToTop();
+        }, 0);
       });
     });
 

@@ -625,7 +625,7 @@ textarea:focus {
 
 .runner-mobile-header {
   position: sticky;
-  top: 34px;
+  top: calc(var(--progress-offset) + 6px);
   z-index: 20;
   margin: -0.15rem -0.15rem 0.85rem;
   padding: 0.72rem 0.76rem;
