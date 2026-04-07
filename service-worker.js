@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v10.0.2';
+const CACHE_VERSION = 'v10.0.3';
 const STATIC_CACHE = `check-lib-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `check-lib-runtime-${CACHE_VERSION}`;
 const REMOTE_CACHE = `check-lib-remote-${CACHE_VERSION}`;

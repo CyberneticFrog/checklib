@@ -387,17 +387,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }, duration);
   };
 
+  const lockModalViewport = () => {
+    document.body.classList.add('modal-open');
+  };
+
+  const unlockModalViewport = () => {
+    if (document.querySelector('.modal:not(.hidden)')) return;
+    document.body.classList.remove('modal-open');
+  };
+
+  const openModal = modalEl => {
+    if (!modalEl) return;
+
+    modalEl.classList.remove('hidden');
+    lockModalViewport();
+    modalEl.scrollTop = 0;
+
+    const modalContent = modalEl.querySelector('.modal-content');
+    if (modalContent) {
+      modalContent.scrollTop = 0;
+    }
+
+    requestAnimationFrame(() => {
+      const focusTarget = modalEl.querySelector('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus({ preventScroll: true });
+      }
+    });
+  };
+
+  const closeModal = modalEl => {
+    if (!modalEl) return;
+    modalEl.classList.add('hidden');
+    unlockModalViewport();
+  };
+
   const openConfirmModal = ({ title = 'Please Confirm', message = 'Are you sure?', confirmLabel = 'Confirm', onConfirm }) => {
     confirmState = onConfirm;
     els.confirmModalTitle.textContent = title;
     els.confirmModalMessage.textContent = message;
     els.confirmModalConfirm.textContent = confirmLabel;
-    els.confirmModal.classList.remove('hidden');
+    openModal(els.confirmModal);
   };
 
   const closeConfirmModal = () => {
     confirmState = null;
-    els.confirmModal.classList.add('hidden');
+    closeModal(els.confirmModal);
   };
 
   const openQueueExportFlow = () => {
@@ -452,17 +487,15 @@ document.addEventListener('DOMContentLoaded', () => {
       els.exportAfterMode.disabled = false;
     }
 
-    els.exportDecisionModal.classList.remove('hidden');
+    openModal(els.exportDecisionModal);
   };
 
   const closeExportOptionsModal = () => {
-    if (!els.exportDecisionModal) return;
-    els.exportDecisionModal.classList.add('hidden');
+    closeModal(els.exportDecisionModal);
   };
 
   const closeReportDetailModal = () => {
-    if (!els.reportDetailModal) return;
-    els.reportDetailModal.classList.add('hidden');
+    closeModal(els.reportDetailModal);
   };
 
   const openReportDetailModal = ({ source = 'queue', instance }) => {
@@ -559,7 +592,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    els.reportDetailModal.classList.remove('hidden');
+    openModal(els.reportDetailModal);
   };
 
   const clearValidationErrors = () => {
@@ -1122,6 +1155,24 @@ document.addEventListener('DOMContentLoaded', () => {
     els.finalProceedSignature.disabled = !status.ready;
   };
 
+  const updateViewportOffsets = () => {
+    const progressBar = document.querySelector('.progress-container');
+    const progressOffset = progressBar ? progressBar.offsetHeight : 44;
+    document.documentElement.style.setProperty('--progress-offset', `${progressOffset}px`);
+  };
+
+  const scrollRunnerViewportToTop = () => {
+    updateViewportOffsets();
+
+    const anchor = document.getElementById('runner-scroll-anchor');
+    if (!anchor) return;
+
+    anchor.scrollIntoView({
+      behavior: 'auto',
+      block: 'start'
+    });
+  };
+
   const setRunnerStage = (stage, { persist = true } = {}) => {
     const previousStage = appState.runnerStage;
     appState.runnerStage = stage;
@@ -1141,6 +1192,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stage === 'issues') renderIssuesStage();
     if (stage === 'final') renderFinalStage();
     if (persist && autosaveEnabled && previousStage !== stage) saveProgress({ silent: true });
+
+    if (stage === 'section' || stage === 'issues' || stage === 'final') {
+      requestAnimationFrame(() => {
+        scrollRunnerViewportToTop();
+      });
+    }
   };
 
   const renderFromState = () => {
@@ -1210,12 +1267,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const openSignatureModal = () => {
     els.signatureError.classList.add('hidden');
     els.signaturePadCanvas.classList.remove('error-highlight');
-    els.signatureModal.classList.remove('hidden');
+    openModal(els.signatureModal);
     resizeCanvas();
   };
 
   const closeSignatureModal = () => {
-    els.signatureModal.classList.add('hidden');
+    closeModal(els.signatureModal);
     if (signaturePad) signaturePad.clear();
   };
 
@@ -2455,6 +2512,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('install-app').hidden = true;
   });
 
+  updateViewportOffsets();
+  window.addEventListener('resize', updateViewportOffsets);
+
   const preferredTheme = localStorage.getItem('theme');
   if (preferredTheme === 'dark' || (!preferredTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.body.classList.add('dark-theme');
@@ -2485,13 +2545,24 @@ document.addEventListener('DOMContentLoaded', () => {
     setSectionUnansweredFilter(enableFilter);
     if (enableFilter && unanswered.length) focusSectionItem(unanswered[0].id);
   });
+  const refreshCurrentSectionView = () => {
+    renderSectionStage();
+    renderRunnerSummary();
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollRunnerViewportToTop();
+      });
+    });
+
+    if (autosaveEnabled) saveProgress({ silent: true });
+  };
+
   els.sectionPrev.addEventListener('click', () => {
     confirmSectionExitIfNeeded(() => {
       if (appState.currentSectionIndex > 0) {
         appState.currentSectionIndex -= 1;
-        renderSectionStage();
-        renderRunnerSummary();
-        if (autosaveEnabled) saveProgress({ silent: true });
+        refreshCurrentSectionView();
       } else {
         setRunnerStage('setup');
       }
@@ -2501,9 +2572,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmSectionExitIfNeeded(() => {
       if (appState.currentSectionIndex < appState.sections.length - 1) {
         appState.currentSectionIndex += 1;
-        renderSectionStage();
-        renderRunnerSummary();
-        if (autosaveEnabled) saveProgress({ silent: true });
+        refreshCurrentSectionView();
       } else {
         setRunnerStage('issues');
       }

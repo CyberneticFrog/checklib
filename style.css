@@ -3,6 +3,7 @@
    ======================= */
 :root {
   /* Layout & Containers */
+  --progress-offset: 44px;
   --bg-page:        linear-gradient(180deg, #2d3137 0%, #23272d 42%, #1b1f24 100%);
   --bg-container:   #F4F2EE;
   --bg-modal:       #F7F5F2;
@@ -129,6 +130,10 @@ body {
   padding: 8px 8px 0;
   line-height: 1.5;
   color: var(--text-primary);
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 .dark-theme .runner-summary-item,
@@ -608,6 +613,14 @@ textarea:focus {
 
 .runner-panel.hidden {
   display: none;
+}
+
+.runner-scroll-anchor {
+  display: block;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  scroll-margin-top: calc(var(--progress-offset) + 12px);
 }
 
 .runner-mobile-header {
@@ -1469,15 +1482,16 @@ form > fieldset:nth-of-type(2) button:not(#clear-reports) {
    ======================= */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background-color: var(--overlay-bg);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1rem;
+  z-index: 2000;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal.hidden { display: none; }
@@ -1485,10 +1499,22 @@ form > fieldset:nth-of-type(2) button:not(#clear-reports) {
 .modal-content {
   background-color: var(--bg-modal);
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 12px;
   max-width: 500px;
-  width: 90%;
+  width: min(100%, 500px);
+  margin: auto;
   text-align: center;
+  box-shadow: var(--shadow-strong);
+}
+
+@media (min-width: 641px) {
+  .modal {
+    padding: 1.5rem;
+  }
+
+  .modal-content {
+    width: min(90%, 500px);
+  }
 }
 
 .export-options-content {

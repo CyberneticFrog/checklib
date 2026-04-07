@@ -143,6 +143,7 @@
           </div>
 
           <div class="runner-panel hidden" id="stage-section-panel" data-stage-panel="section">
+            <div id="runner-scroll-anchor" class="runner-scroll-anchor" aria-hidden="true"></div>
             <div class="runner-mobile-header">
               <div class="runner-mobile-header-top">
                 <div>
@@ -401,74 +402,75 @@
         </section>
       </form>
 
-      <!-- SIGNATURE MODAL -->
-      <div class="modal hidden" id="signature-modal">
-        <div class="modal-content">
-          <h3>Sign to Finalise Checklist</h3>
-          <canvas id="signature-pad" class="signature-pad"></canvas>
-          <span id="signature-error" class="error-message hidden">Please provide a signature.</span>
-          <div class="modal-buttons">
-            <button id="clear-signature">Clear</button>
-            <button id="confirm-signature">Confirm</button>
-            <button id="cancel-signature">Cancel</button>
-          </div>
+    </div>
+
+    <!-- SIGNATURE MODAL -->
+    <div class="modal hidden" id="signature-modal">
+      <div class="modal-content">
+        <h3>Sign to Finalise Checklist</h3>
+        <canvas id="signature-pad" class="signature-pad"></canvas>
+        <span id="signature-error" class="error-message hidden">Please provide a signature.</span>
+        <div class="modal-buttons">
+          <button id="clear-signature">Clear</button>
+          <button id="confirm-signature">Confirm</button>
+          <button id="cancel-signature">Cancel</button>
         </div>
       </div>
+    </div>
 
-      <div class="modal hidden" id="confirm-modal">
-        <div class="modal-content confirm-modal-content">
-          <h3 id="confirm-modal-title">Please Confirm</h3>
-          <p id="confirm-modal-message">Are you sure?</p>
-          <div class="modal-buttons">
-            <button type="button" id="confirm-modal-cancel">Cancel</button>
-            <button type="button" id="confirm-modal-confirm">Confirm</button>
-          </div>
+    <div class="modal hidden" id="confirm-modal">
+      <div class="modal-content confirm-modal-content">
+        <h3 id="confirm-modal-title">Please Confirm</h3>
+        <p id="confirm-modal-message">Are you sure?</p>
+        <div class="modal-buttons">
+          <button type="button" id="confirm-modal-cancel">Cancel</button>
+          <button type="button" id="confirm-modal-confirm">Confirm</button>
         </div>
       </div>
+    </div>
 
-      <div class="modal hidden" id="export-decision-modal">
-        <div class="modal-content export-options-content">
-          <h3 id="export-modal-title">Export Options</h3>
-          <p id="export-modal-context" class="export-modal-context">Choose export settings.</p>
+    <div class="modal hidden" id="export-decision-modal">
+      <div class="modal-content export-options-content">
+        <h3 id="export-modal-title">Export Options</h3>
+        <p id="export-modal-context" class="export-modal-context">Choose export settings.</p>
 
-          <div class="export-options-group">
-            <label for="export-content-mode">Export content</label>
-            <select id="export-content-mode" class="select">
-              <option value="full">Full report</option>
-              <option value="summary_issues">Summary and issues only</option>
-              <option value="issues_only">Issues only</option>
-            </select>
-          </div>
+        <div class="export-options-group">
+          <label for="export-content-mode">Export content</label>
+          <select id="export-content-mode" class="select">
+            <option value="full">Full report</option>
+            <option value="summary_issues">Summary and issues only</option>
+            <option value="issues_only">Issues only</option>
+          </select>
+        </div>
 
-          <div class="export-options-group">
-            <label for="export-after-mode">After export</label>
-            <select id="export-after-mode" class="select">
-              <option value="keep">Keep in queue</option>
-              <option value="archive">Move exported reports to archive</option>
-            </select>
-          </div>
+        <div class="export-options-group">
+          <label for="export-after-mode">After export</label>
+          <select id="export-after-mode" class="select">
+            <option value="keep">Keep in queue</option>
+            <option value="archive">Move exported reports to archive</option>
+          </select>
+        </div>
 
-          <div class="modal-buttons">
-            <button type="button" id="export-cancel">Cancel</button>
-            <button type="button" id="export-run">Export Now</button>
-          </div>
+        <div class="modal-buttons">
+          <button type="button" id="export-cancel">Cancel</button>
+          <button type="button" id="export-run">Export Now</button>
         </div>
       </div>
+    </div>
 
-      <div class="modal hidden" id="report-detail-modal">
-        <div class="modal-content report-detail-content">
-          <div class="report-detail-header">
-            <div>
-              <h3 id="report-detail-title">Report Detail</h3>
-              <p id="report-detail-context" class="export-modal-context">Review this saved report.</p>
-            </div>
-            <button type="button" id="report-detail-close" class="runner-nav-button">Close</button>
+    <div class="modal hidden" id="report-detail-modal">
+      <div class="modal-content report-detail-content">
+        <div class="report-detail-header">
+          <div>
+            <h3 id="report-detail-title">Report Detail</h3>
+            <p id="report-detail-context" class="export-modal-context">Review this saved report.</p>
           </div>
-
-          <div id="report-detail-summary" class="report-detail-summary"></div>
-          <div id="report-detail-sections" class="report-detail-sections"></div>
-          <div id="report-detail-issues" class="report-detail-issues"></div>
+          <button type="button" id="report-detail-close" class="runner-nav-button">Close</button>
         </div>
+
+        <div id="report-detail-summary" class="report-detail-summary"></div>
+        <div id="report-detail-sections" class="report-detail-sections"></div>
+        <div id="report-detail-issues" class="report-detail-issues"></div>
       </div>
     </div>
 
